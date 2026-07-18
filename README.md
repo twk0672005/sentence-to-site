@@ -43,7 +43,7 @@ Agents are already good at generating web code. What they get wrong is everythin
 
 The core rule everywhere: **completion is a browser verdict, never a build exit code.**
 
-You have a vague idea — *"a landing page for my coffee cart, warm, not corporate"*. An AI agent loaded with this kit turns that sentence into a finished website: it expands the idea into a design premise, makes the small decisions on your behalf (and tells you which ones), builds the page, **looks at it in a real browser**, repairs the weakest visible thing, and repeats until the result is honest to show.
+You have a vague idea — *"a personal website for my clothing brand, refined, not a template"*. An AI agent loaded with this kit turns that sentence into a finished website: it expands the idea into a design premise, makes the small decisions on your behalf (and tells you which ones), builds the page, **looks at it in a real browser**, repairs the weakest visible thing, and repeats until the result is honest to show.
 
 This is a **skill library for AI agents** (Claude Code, Codex, and any agent that reads `SKILL.md` files) — not a website builder app, not a giant prompt, not a framework.
 
@@ -116,7 +116,7 @@ cp -r sentence-to-site/references ~/.claude/
 
 Then give your agent one sentence:
 
-> *"a landing page for my coffee cart, warm, not corporate"*
+> *"a personal website for my clothing brand, refined, not a template"*
 
 Validate the repository before use or release:
 

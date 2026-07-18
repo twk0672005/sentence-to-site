@@ -8,7 +8,7 @@ description: Use when a user gives one sentence, a vague idea, or a loose brief 
 The entry point of this kit. Input: one sentence. Output: a website that has been seen running in a browser, not just built.
 
 ```text
-"a landing page for my coffee cart, warm, not corporate"
+"a personal website for my clothing brand, refined, not a template"
         │
         ▼
  expand → direct → build → prove → repair → hand off
