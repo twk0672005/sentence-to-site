@@ -4,9 +4,9 @@
 
 **一句話輸入，一個經瀏覽器驗證的網站輸出。**
 
-想法展開（不逼問使用者） · 反通用視覺方向 · 動畫編排 · 真實瀏覽器證據 · 對抗式品質循環
+想法自動展開，不出問卷 · 視覺拒絕模板臉 · 動畫有章法 · 真實瀏覽器為證 · 對抗式品質循環
 
-*縮小 vibe coding 與軟體工程的差距，讓 vibe coding 更穩定：框架與 workflow 已預先設計進每個 skill，沒有 coding 背景的普通人，也能把一句話變成經得起檢驗的網站。*
+*vibe coding 靠感覺，軟體工程靠紀律。這套 kit 把工程紀律預先寫進每個 skill，讓 vibe coding 穩定下來——沒寫過 code 的人，也能把一句話變成經得起檢驗的網站。*
 
 [![CI](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml)
 [![Agent Skills](https://img.shields.io/badge/Agent-Skills-blueviolet)](skills/catalog.json)

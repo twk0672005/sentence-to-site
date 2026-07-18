@@ -4,9 +4,9 @@
 
 **One sentence in. A verified website out.**
 
-Idea Expansion (no questionnaires) · Anti-Generic Visual Direction · Motion Choreography · Real-Browser Evidence · Adversarial Quality Loop
+Expands ideas — no questionnaires · Anti-template visual direction · Choreographed motion · Real-browser proof · Adversarial quality loop
 
-*Shrinking the gap between vibe coding and software engineering — making vibe coding more stable: the frameworks and workflow are already designed into the skills, so people with no coding background can turn one sentence into a website that holds up.*
+*Vibe coding runs on feel; software engineering runs on discipline. This kit bakes that discipline into every skill, so vibe coding holds steady — one sentence, even from someone who has never written code, becomes a website that stands up to scrutiny.*
 
 [![CI](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml)
 [![Agent Skills](https://img.shields.io/badge/Agent-Skills-blueviolet)](skills/catalog.json)
