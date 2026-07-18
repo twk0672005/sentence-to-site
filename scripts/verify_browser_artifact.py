@@ -64,21 +64,27 @@ def start_static_server(root: Path, port: int) -> ReusableServer:
     return server
 
 
-def capture_view(page, label: str, summary: dict) -> None:
-    console_messages: list[dict[str, str]] = []
-    page_errors: list[str] = []
-    failed_requests: list[dict[str, object]] = []
+def attach_listeners(page) -> dict[str, list]:
+    # Must be attached BEFORE page.goto so load-time errors are captured.
+    captured: dict[str, list] = {"console": [], "pageErrors": [], "failedRequests": []}
     page.on(
         "console",
-        lambda message: console_messages.append({"type": message.type, "text": message.text})
+        lambda message: captured["console"].append({"type": message.type, "text": message.text})
         if message.type in {"error", "warning"}
         else None,
     )
-    page.on("pageerror", lambda error: page_errors.append(str(error)))
+    page.on("pageerror", lambda error: captured["pageErrors"].append(str(error)))
     page.on(
         "requestfailed",
-        lambda request: failed_requests.append({"url": request.url, "failure": request.failure}),
+        lambda request: captured["failedRequests"].append({"url": request.url, "failure": request.failure}),
     )
+    return captured
+
+
+def capture_view(page, label: str, summary: dict, captured: dict[str, list]) -> None:
+    console_messages = captured["console"]
+    page_errors = captured["pageErrors"]
+    failed_requests = captured["failedRequests"]
 
     title = page.title()
     h1 = page.locator("h1").first.text_content() if page.locator("h1").count() else ""
@@ -138,9 +144,10 @@ def main() -> int:
             )
             for label, viewport in (("desktop", {"width": 1440, "height": 950}), ("mobile", {"width": 390, "height": 844})):
                 page = browser.new_page(viewport=viewport)
+                captured = attach_listeners(page)
                 page.goto(url, wait_until="domcontentloaded", timeout=45000)
                 page.wait_for_timeout(700)
-                capture_view(page, label, summary)
+                capture_view(page, label, summary, captured)
                 page.close()
             browser.close()
         summary["ok"] = True

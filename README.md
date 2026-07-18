@@ -106,10 +106,13 @@ Copy the skills into your agent's skill directory (see [Installation](docs/INSTA
 
 ```bash
 git clone https://github.com/twk0672005/sentence-to-site.git
-# Claude Code
-cp -r sentence-to-site/skills/* ~/.claude/skills/
-# or point your agent at skills/catalog.json
+# Claude Code — copy the skill folders AND the shared references they link to
+cp -r sentence-to-site/skills/*/ ~/.claude/skills/
+cp -r sentence-to-site/references ~/.claude/
+# or point your agent at skills/catalog.json inside the cloned bundle
 ```
+
+> Windows: use `python` instead of `python3` in the commands below. For the optional browser-evidence scripts, also run `pip install -r requirements.txt && playwright install chromium` once.
 
 Then give your agent one sentence:
 

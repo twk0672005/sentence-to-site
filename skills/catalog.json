@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.4.0",
+  "version": "0.4.1",
   "name": "sentence-to-site",
   "description": "One sentence in, a verified website out: an agent skill library that expands a vague idea into a premise, drives a visual/motion pipeline, and proves the result in a real browser.",
   "skills": [

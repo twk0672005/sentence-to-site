@@ -106,10 +106,13 @@ Agent 早就很會寫網頁 code，出錯的是 code **以外**的一切：
 
 ```bash
 git clone https://github.com/twk0672005/sentence-to-site.git
-# Claude Code
-cp -r sentence-to-site/skills/* ~/.claude/skills/
-# 或讓你的 agent 直接讀 skills/catalog.json
+# Claude Code —— skill 資料夾與它們連結的共用 references 要一併複製
+cp -r sentence-to-site/skills/*/ ~/.claude/skills/
+cp -r sentence-to-site/references ~/.claude/
+# 或讓你的 agent 直接讀 clone bundle 內的 skills/catalog.json
 ```
+
+> Windows：以下命令請把 `python3` 換成 `python`。若要使用可選的瀏覽器證據腳本，另需執行一次 `pip install -r requirements.txt && playwright install chromium`。
 
 然後給你的 agent 一句話：
 

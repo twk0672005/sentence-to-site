@@ -12,7 +12,14 @@ python3 tests/validate_skill.py
 python3 tests/validate_skill_library.py
 ```
 
-Install the `skills/` directories into your agent host's skill location using that host's documented method. Keep `references/`, `templates/`, and `scripts/` beside the installed skills or configure your host to preserve their relative paths.
+Install the `skills/` directories into your agent host's skill location using that host's documented method. Skills link to shared guidance via `../../references/…`, so `references/` must land two levels above each installed skill folder (for Claude Code: `~/.claude/references/` next to `~/.claude/skills/`):
+
+```bash
+cp -r skills/*/ ~/.claude/skills/
+cp -r references ~/.claude/
+```
+
+Keep `templates/` and `scripts/` in the cloned bundle and run them from there. On Windows, replace `python3` with `python`.
 
 ## Selective use
 

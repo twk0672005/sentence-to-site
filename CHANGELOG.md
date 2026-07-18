@@ -2,6 +2,19 @@
 
 All notable changes to this kit are documented here.
 
+## 0.4.1 — 2026-07-18
+
+Findings from a full end-to-end dogfood run (fresh clone → install → one sentence → verified site).
+
+### Fixed
+
+- `verify_browser_artifact.py` attached console/pageerror/requestfailed listeners **after** `page.goto`, so load-time errors were silently missed. Listeners now attach before navigation.
+- The README quick-install copied skill folders without the shared `references/` they link to, leaving dangling `../../references/…` links after installation. Install commands now copy `references/` beside the skills and no longer copy the stray `catalog.json` into the skill directory.
+
+### Added
+
+- Windows note in install docs: use `python` instead of `python3`; one-time `playwright install chromium` for the optional browser tooling.
+
 ## 0.4.0 — 2026-07-18
 
 ### Added
