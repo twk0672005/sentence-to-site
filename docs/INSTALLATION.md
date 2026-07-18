@@ -5,8 +5,8 @@
 Clone or download a tagged release, then keep the repository together. Specialist skills link to shared references and executable tools in the bundle.
 
 ```bash
-git clone <repository-url> cinematic-web-motion-workflow-kit
-cd cinematic-web-motion-workflow-kit
+git clone <repository-url> sentence-to-site
+cd sentence-to-site
 python3 scripts/validate_skill_package.py
 python3 tests/validate_skill.py
 python3 tests/validate_skill_library.py

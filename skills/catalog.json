@@ -1,9 +1,18 @@
 {
   "schemaVersion": 1,
-  "version": "0.2.0",
-  "name": "cinematic-web-motion-workflow-kit",
-  "description": "Composable, framework-neutral skills for visual website direction, motion, browser evidence, and handoff.",
+  "version": "0.3.0",
+  "name": "sentence-to-site",
+  "description": "One sentence in, a verified website out: an agent skill library that expands a vague idea into a premise, drives a visual/motion pipeline, and proves the result in a real browser.",
   "skills": [
+    {
+      "name": "one-sentence-website",
+      "path": "skills/one-sentence-website/SKILL.md",
+      "summary": "Turns one vague sentence into a finished website: expands the idea into a premise with explicit assumptions, routes the specialist pipeline, and loops build → browser evidence → repair.",
+      "triggers": ["one sentence website", "vague idea", "make me a site", "idea to website"],
+      "references": ["references/website-motion-workflow.md"],
+      "tools": [],
+      "dependsOn": ["visual-story-direction", "website-motion-intake", "motion-choreography", "browser-evidence", "delivery-handoff"]
+    },
     {
       "name": "cinematic-web-motion",
       "path": "skills/cinematic-web-motion/SKILL.md",

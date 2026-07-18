@@ -2,6 +2,17 @@
 
 All notable changes to this kit are documented here.
 
+## 0.3.0 — 2026-07-18
+
+### Changed
+
+- Repositioned and renamed the kit to **sentence-to-site**: one sentence in, a verified website out.
+- Rewrote the README around the one-sentence entry point; existing skills are now presented as its pipeline.
+
+### Added
+
+- Flagship skill `one-sentence-website`: expands a vague one-line idea into a premise with explicit assumptions, routes the specialist pipeline, and loops build → browser evidence → repair until the result is honest to show.
+
 ## 0.2.0 — 2026-07-18
 
 ### Added

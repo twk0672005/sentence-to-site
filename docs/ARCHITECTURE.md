@@ -5,6 +5,7 @@ This is a small skill library, not a monolithic prompt and not an agent framewor
 ```text
 skills/
   catalog.json                 discovery metadata and module map
+  one-sentence-website/        flagship entry point: one sentence → verified site
   cinematic-web-motion/        thin router for the complete bundle
   visual-story-direction/      visual premise and critique
   website-motion-intake/       existing-project discovery and ownership

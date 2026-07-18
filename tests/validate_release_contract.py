@@ -9,6 +9,7 @@ required = [
     root / "SECURITY.md",
     root / "CODE_OF_CONDUCT.md",
     root / "requirements.txt",
+    root / "skills" / "one-sentence-website" / "SKILL.md",
     root / "skills" / "cinematic-web-motion" / "SKILL.md",
     root / "references" / "website-motion-workflow.md",
     root / "references" / "project-intake.md",
