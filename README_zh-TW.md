@@ -6,7 +6,7 @@
 
 想法展開（不逼問使用者） · 反通用視覺方向 · 動畫編排 · 真實瀏覽器證據 · 對抗式品質循環
 
-*拉近 vibe coding 與 software engineering 的距離：框架與 workflow 已預先設計進每個 skill，沒有 coding 背景的普通人，也能把一句話變成經得起檢驗的網站。*
+*縮小 vibe coding 與軟體工程的差距，讓 vibe coding 更穩定：框架與 workflow 已預先設計進每個 skill，沒有 coding 背景的普通人，也能把一句話變成經得起檢驗的網站。*
 
 [![CI](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml)
 [![Agent Skills](https://img.shields.io/badge/Agent-Skills-blueviolet)](skills/catalog.json)
