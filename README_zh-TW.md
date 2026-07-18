@@ -154,4 +154,4 @@ python3 tests/validate_release_contract.py
 
 ## 授權
 
-[MIT](LICENSE)
+本項目採用 [MIT 授權條款](LICENSE) 開源——可自由使用、修改、再發佈，只需保留版權聲明。
