@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "name": "sentence-to-site",
   "description": "One sentence in, a verified website out: an agent skill library that expands a vague idea into a premise, drives a visual/motion pipeline, and proves the result in a real browser.",
   "skills": [
@@ -11,7 +11,16 @@
       "triggers": ["one sentence website", "vague idea", "make me a site", "idea to website"],
       "references": ["references/website-motion-workflow.md"],
       "tools": [],
-      "dependsOn": ["visual-story-direction", "website-motion-intake", "motion-choreography", "browser-evidence", "delivery-handoff"]
+      "dependsOn": ["visual-story-direction", "website-motion-intake", "motion-choreography", "browser-evidence", "delivery-handoff", "adversarial-quality-loop"]
+    },
+    {
+      "name": "adversarial-quality-loop",
+      "path": "skills/adversarial-quality-loop/SKILL.md",
+      "summary": "Runs a real quality loop with separated Planner, Builder, Evaluator, and Evidence Auditor roles; self-critique never counts as the loop, and degraded solo mode must be declared.",
+      "triggers": ["quality loop", "review loop", "adversarial review", "multi-agent review"],
+      "references": ["references/quality-loop-roles.md", "references/evidence-and-handoff.md"],
+      "tools": [],
+      "dependsOn": ["browser-evidence"]
     },
     {
       "name": "cinematic-web-motion",
@@ -27,7 +36,7 @@
       "path": "skills/visual-story-direction/SKILL.md",
       "summary": "Defines a visible premise, hierarchy, visual material, and critique target before effects are added.",
       "triggers": ["visual direction", "landing-page redesign", "generic website"],
-      "references": ["references/visual-direction.md"],
+      "references": ["references/visual-direction.md", "references/reference-recreation.md"],
       "tools": [],
       "dependsOn": []
     },

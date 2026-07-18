@@ -2,6 +2,19 @@
 
 All notable changes to this kit are documented here.
 
+## 0.4.0 — 2026-07-18
+
+### Added
+
+- New skill `adversarial-quality-loop`: a real quality loop with separated Planner, Builder, Evaluator, and Evidence Auditor roles. Self-critique never counts as the loop, and any degraded solo mode must be declared explicitly.
+- `references/quality-loop-roles.md`: prompt contracts for the four loop roles.
+- `references/reference-recreation.md`: reference-driven recreation discipline — verify the source, sample real frames, extract mechanics with confidence labels, never copy brand identity.
+- `references/evidence-and-handoff.md` now covers public UI vs internal evidence separation (no QA vocabulary in shipped pages) and WebGL/canvas runtime readback fields.
+
+### Changed
+
+- `one-sentence-website` Step 3 routes to `adversarial-quality-loop` when multi-agent tooling is available; solo self-critique must be labelled as such.
+
 ## 0.3.0 — 2026-07-18
 
 ### Changed

@@ -10,6 +10,7 @@ Choose the smallest specialist skill that owns the decision. Do not load every m
 | If the task needs… | Start with… |
 | --- | --- |
 | one vague sentence turned into a whole finished site | `one-sentence-website` |
+| a real multi-role quality loop instead of self-critique | `adversarial-quality-loop` |
 | a premise, hierarchy, visual critique, or anti-generic direction | `visual-story-direction` |
 | an existing repo, unknown files, accepted baseline, or stack read | `website-motion-intake` |
 | UI motion, scroll choreography, canvas, WebGL, or reduced motion | `motion-choreography` |

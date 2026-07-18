@@ -8,6 +8,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parents[1]
 expected_skills = {
     "one-sentence-website",
+    "adversarial-quality-loop",
     "cinematic-web-motion",
     "visual-story-direction",
     "website-motion-intake",

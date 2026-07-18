@@ -23,6 +23,7 @@ The flagship skill is the entry point; the rest are its pipeline. Load one decis
 | Skill | Use it for |
 | --- | --- |
 | [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **the entry point** — turn one vague sentence into a shipped, verified site |
+| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | a real quality loop — separated Planner / Builder / Evaluator / Evidence Auditor roles, not self-critique |
 | [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | route a website task to the right specialist below |
 | [`visual-story-direction`](skills/visual-story-direction/SKILL.md) | premise, hierarchy, material direction, and visual critique |
 | [`website-motion-intake`](skills/website-motion-intake/SKILL.md) | existing-project stack, ownership, baseline, and verification discovery |

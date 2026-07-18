@@ -39,16 +39,20 @@ Use the pipeline skills in this kit; skip stages the claim doesn't need:
 
 A greenfield one-pager typically needs direction → build → evidence. An existing site needs intake first. Never skip evidence.
 
-## Step 3 — The autonomous loop
+## Step 3 — The quality loop
 
-Build in small visible increments. After each increment:
+Build in small visible increments, then loop until the promise holds.
+
+**If you can spawn separate agents, run `adversarial-quality-loop`**: distinct Planner, Builder, Evaluator, and Evidence Auditor roles, so the mind that built the page is never the only mind that grades it. This is the full form of the loop.
+
+**If you cannot** (no subagent tooling, cost limits), declare *solo mode* explicitly and run the same role contracts sequentially yourself:
 
 1. Render the real page in a real browser (see `browser-evidence`).
 2. Name the **weakest visible thing** on the screenshot — not the easiest thing to fix.
 3. Repair it. Re-render.
 4. Stop when a stranger seeing the page would believe the one visible promise from Step 1 — or when the loop stops producing visible improvement (then hand off honestly).
 
-Completion is a browser verdict, never a build exit code.
+Never present solo self-critique as the adversarial loop. Completion is a browser verdict, never a build exit code.
 
 ## Step 4 — Hand back
 
