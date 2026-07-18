@@ -4,7 +4,7 @@
 
 **One sentence in. A verified website out.**
 
-Expands ideas — no questionnaires · Anti-template visual direction · Choreographed motion · Real-browser proof · Adversarial quality loop
+Fills in your requirements instead of asking 20 questions · No cookie-cutter AI-looking pages · Motion is planned, not sprinkled on · Only "done" after real-browser screenshot checks · Reviewed by a separate AI role — never grades its own work
 
 *Vibe coding runs on feel; software engineering runs on discipline. This kit bakes that discipline into every skill, so vibe coding holds steady — one sentence, even from someone who has never written code, becomes a website that stands up to scrutiny.*
 
