@@ -1,0 +1,33 @@
+name: Skill request
+description: Propose a new decision-shaped skill or a substantial module improvement.
+title: "skill: "
+labels: ["skill-request"]
+body:
+  - type: textarea
+    id: trigger
+    attributes:
+      label: Trigger and user problem
+      description: Describe when an agent should load this skill and what is currently hard or unsafe.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Decision boundary
+      description: Explain why this is not a duplicate of an existing module.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evaluation idea
+      description: Give one passing scenario and one failure or boundary scenario.
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Safety
+      options:
+        - label: This request contains no credentials, private client material, or copied private prompts.
+          required: true

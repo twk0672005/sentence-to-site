@@ -1,0 +1,1 @@
+{"skill":"motion-choreography","cases":[{"id":"transform-ownership","prompt":"Use CSS hover, GSAP scroll, and WebGL movement on the same product label.","mustInclude":["one transform owner","wrapper split"]},{"id":"accessible-mobile","prompt":"Create a dense pinned desktop timeline.","mustInclude":["mobile alternative","prefers-reduced-motion","cleanup"]}]}

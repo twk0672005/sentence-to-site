@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "version": "0.2.0",
+  "name": "cinematic-web-motion-workflow-kit",
+  "description": "Composable, framework-neutral skills for visual website direction, motion, browser evidence, and handoff.",
+  "skills": [
+    {
+      "name": "cinematic-web-motion",
+      "path": "skills/cinematic-web-motion/SKILL.md",
+      "summary": "Routes a website or browser-motion task to the smallest relevant specialist skill.",
+      "triggers": ["website motion", "cinematic site", "visual page workflow"],
+      "references": ["references/website-motion-workflow.md"],
+      "tools": [],
+      "dependsOn": ["visual-story-direction", "website-motion-intake", "motion-choreography", "browser-evidence", "delivery-handoff"]
+    },
+    {
+      "name": "visual-story-direction",
+      "path": "skills/visual-story-direction/SKILL.md",
+      "summary": "Defines a visible premise, hierarchy, visual material, and critique target before effects are added.",
+      "triggers": ["visual direction", "landing-page redesign", "generic website"],
+      "references": ["references/visual-direction.md"],
+      "tools": [],
+      "dependsOn": []
+    },
+    {
+      "name": "website-motion-intake",
+      "path": "skills/website-motion-intake/SKILL.md",
+      "summary": "Maps an existing website's stack, accepted baseline, ownership, and verification route before implementation.",
+      "triggers": ["existing site", "unknown codebase", "website handoff"],
+      "references": ["references/project-intake.md"],
+      "tools": [],
+      "dependsOn": []
+    },
+    {
+      "name": "motion-choreography",
+      "path": "skills/motion-choreography/SKILL.md",
+      "summary": "Assigns motion lanes, transform ownership, scroll behavior, cleanup, and accessible fallback.",
+      "triggers": ["GSAP", "scroll animation", "WebGL", "reduced motion"],
+      "references": ["references/motion-choreography.md"],
+      "tools": [],
+      "dependsOn": []
+    },
+    {
+      "name": "browser-evidence",
+      "path": "skills/browser-evidence/SKILL.md",
+      "summary": "Chooses and records running-artifact browser evidence with an honest verdict.",
+      "triggers": ["visual QA", "screenshot", "browser verification", "animation proof"],
+      "references": ["references/evidence-and-handoff.md", "references/tooling.md"],
+      "tools": ["scripts/verify_browser_artifact.py", "scripts/record_browser_scroll.py"],
+      "dependsOn": []
+    },
+    {
+      "name": "delivery-handoff",
+      "path": "skills/delivery-handoff/SKILL.md",
+      "summary": "Packages scope, evidence, known issues, and next actions without exposing private material.",
+      "triggers": ["handoff", "delivery", "release notes", "completion claim"],
+      "references": ["references/delivery-handoff.md"],
+      "tools": [],
+      "dependsOn": ["browser-evidence"]
+    }
+  ]
+}

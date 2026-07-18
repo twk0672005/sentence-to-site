@@ -1,0 +1,1 @@
+{"skill":"cinematic-web-motion","cases":[{"id":"route-scroll-story","prompt":"I need a WebGL hero with pinned scroll labels and motion proof.","mustLeadWith":"motion-choreography","mustAlsoUse":"browser-evidence"},{"id":"route-small-copy","prompt":"Change one heading in an accepted landing page.","mustAvoid":"loading every specialist skill"}]}

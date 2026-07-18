@@ -1,0 +1,1 @@
+{"skill":"website-motion-intake","cases":[{"id":"existing-stack","prompt":"Redesign the hero in an unfamiliar Vite app.","mustInclude":["run command","entry route","accepted baseline","verification"]},{"id":"boundary","prompt":"Improve the page and also replace its deployment setup.","mustAvoid":["unapproved deployment change"]}]}
