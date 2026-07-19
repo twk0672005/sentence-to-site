@@ -2,9 +2,9 @@
 
 # ✨ sentence-to-site · Agent Skill Library
 
-**One sentence in. A bounded, verified website route out.**
+**One sentence in. A verified website out — and it knows when to stop.**
 
-Idea Expansion (no questionnaires) · Bounded Route Selection · Anti-Generic Visual Direction · Motion Choreography · Real-Browser Evidence
+Fills in your requirements instead of asking 20 questions · Picks one bounded route before building · No cookie-cutter AI-looking pages · Motion is planned, not sprinkled on · Only "done" after real-browser screenshot checks
 
 *Vibe coding runs on feel; software engineering runs on discipline. This kit makes the route, evidence, and stop condition explicit — one sentence, even from someone who has never written code, becomes a bounded website task that can be verified honestly.*
 

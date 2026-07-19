@@ -2,7 +2,7 @@
 
 # ✨ sentence-to-site · Agent Skill Library
 
-**一句話輸入，一條有邊界、經瀏覽器驗證的網站路線輸出。**
+**一句話輸入，一個經瀏覽器驗證的網站輸出——而且知道何時該停。**
 
 不會反問你一堆問題，自動幫你補全需求 · 先選一條有邊界的路線再開工 · 不做千篇一律的 AI 樣板網頁 · 動畫先規劃再加，不亂塞 · 開真瀏覽器截圖驗證過才算完成
 
@@ -71,27 +71,23 @@ Agent 早就很會寫網頁 code，出錯的是 code **以外**的一切：
 │ 反通用層級     │ │ 既有專案盤點 │ │ 分道、reduced   │ │ 誠實裁決       │
 │               │ │             │ │ motion          │ │                │
 └───────────────┘ └─────────────┘ └─────────────────┘ └───────┬────────┘
-                                                              │
-                ┌─────────────────────────────────────────────▼───────┐
-                │              adversarial-quality-loop               │
-                │   Planner → Builder → Evaluator → Evidence Auditor  │
-                │        對最弱一環重複循環，直到誠實可示人             │
-                └─────────────────────────┬───────────────────────────┘
-                                          ▼
+                                                              ▼
                               ┌───────────────────────┐
                               │   delivery-handoff    │
-                              │  決定紀錄、證據位置、   │
-                              │  已知問題、一句話否決   │
+                              │  路線紀錄、證據位置、   │
+                              │  已知問題、由你選擇     │
                               └───────────────────────┘
 ```
+
+僅在使用者明確要求時使用：`adversarial-quality-loop` 回傳一份獨立審查報告，不能自行開啟另一輪 build。
 
 ### Skill 一覽
 
 | Skill | 用途 |
 |---|---|
-| [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **入口。** 一句模糊的話展開成前提 + 明確假設，路由 pipeline，循環 建頁 → 證據 → 修復 |
-| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | 真正的品質循環：Planner / Builder / Evaluator / Evidence Auditor 四角色分離。自我批改永遠不算；降級 solo mode 必須明示 |
-| [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | 薄路由：把網站任務送到最小合適的專門 skill |
+| [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **入口。** 一句模糊的話展開成前提，選定一條有邊界的路線，收集該路線要求的證據，然後在固定停點交付 |
+| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | 僅限使用者明確要求的一次性獨立審查。回傳一份有限的報告，不能自動開啟另一輪 build |
+| [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | 薄路由：選出最小的有邊界路線與對應的專門 skill |
 | [`visual-story-direction`](skills/visual-story-direction/SKILL.md) | 加特效之前先定：看得見的前提、視覺層級、材質方向與視覺批判 |
 | [`website-motion-intake`](skills/website-motion-intake/SKILL.md) | 既有專案的技術棧、權責、既有基線與驗證路線盤點 |
 | [`motion-choreography`](skills/motion-choreography/SKILL.md) | 動畫分道（CSS / Motion / GSAP / canvas / WebGL）、scroll 行為、清理、reduced-motion 後備 |
