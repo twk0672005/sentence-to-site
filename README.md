@@ -2,11 +2,11 @@
 
 # ✨ sentence-to-site · Agent Skill Library
 
-**One sentence in. A verified website out.**
+**One sentence in. A verified website out — and it knows when to stop.**
 
-Fills in your requirements instead of asking 20 questions · No cookie-cutter AI-looking pages · Motion is planned, not sprinkled on · Only "done" after real-browser screenshot checks · Reviewed by a separate AI role — never grades its own work
+Fills in your requirements instead of asking 20 questions · Picks one bounded route before building · No cookie-cutter AI-looking pages · Motion is planned, not sprinkled on · Only "done" after real-browser screenshot checks
 
-*Vibe coding runs on feel; software engineering runs on discipline. This kit bakes that discipline into every skill, so vibe coding holds steady — one sentence, even from someone who has never written code, becomes a website that stands up to scrutiny.*
+*Vibe coding runs on feel; software engineering runs on discipline. This kit makes the route, evidence, and stop condition explicit — one sentence, even from someone who has never written code, becomes a bounded website task that can be verified honestly.*
 
 [![CI](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml)
 [![Agent Skills](https://img.shields.io/badge/Agent-Skills-blueviolet)](skills/catalog.json)
@@ -39,13 +39,13 @@ Agents are already good at generating web code. What they get wrong is everythin
 | Vague idea → questionnaire back at you | ❌ interrogates | ✅ expands into decisions + explicit assumptions |
 | Same gradient-and-glass page for every prompt | ❌ generic | ✅ anti-generic visual direction with one visible promise |
 | "Done" because the build passed | ❌ never rendered | ✅ real-browser screenshots + readback required |
-| Grades its own homework, calls it a "quality loop" | ❌ self-critique | ✅ separated Planner / Builder / Evaluator / Evidence Auditor roles |
+| Quietly keeps retrying because it wants the page to look better | ❌ open-ended loop | ✅ one explicit route, fixed evidence, and a stop condition |
 | Motion added as decoration, breaks on mobile | ❌ ad-hoc | ✅ choreography lanes + reduced-motion fallback |
 | Handoff with no record of assumptions | ❌ silent | ✅ every inferred decision listed and veto-able in one line |
 
 The core rule everywhere: **completion is a browser verdict, never a build exit code.**
 
-You have a vague idea — *"a personal website for my clothing brand, refined, not a template"*. An AI agent loaded with this kit turns that sentence into a finished website: it expands the idea into a design premise, makes the small decisions on your behalf (and tells you which ones), builds the page, **looks at it in a real browser**, repairs the weakest visible thing, and repeats until the result is honest to show.
+You have a vague idea — *"a personal website for my clothing brand, refined, not a template"*. An AI agent loaded with this kit turns that sentence into a bounded website task: it expands the idea into a design premise, records one route, makes the small decisions on your behalf (and tells you which ones), builds the page, **looks at it in a real browser**, collects the evidence that route requires, and hands it back at a fixed stop condition. A new visual iteration starts only when the user chooses one.
 
 This is a **skill library for AI agents** (Claude Code, Codex, and any agent that reads `SKILL.md` files) — not a website builder app, not a giant prompt, not a framework.
 
@@ -71,27 +71,24 @@ This is a **skill library for AI agents** (Claude Code, Codex, and any agent tha
 │ anti-generic  │ │ existing    │ │ lanes, reduced  │ │ readback,      │
 │ hierarchy     │ │ repo read   │ │ motion          │ │ honest verdict │
 └───────────────┘ └─────────────┘ └─────────────────┘ └───────┬────────┘
-                                                              │
-                ┌─────────────────────────────────────────────▼───────┐
-                │              adversarial-quality-loop               │
-                │   Planner → Builder → Evaluator → Evidence Auditor  │
-                │   repeat on the weakest visible thing until honest  │
-                └─────────────────────────┬───────────────────────────┘
-                                          ▼
+                                                              ▼
                               ┌───────────────────────┐
                               │   delivery-handoff    │
-                              │ decisions, evidence,  │
-                              │ known issues, veto    │
+                              │ route, evidence,      │
+                              │ known issues, choices │
                               └───────────────────────┘
+
 ```
+
+Optional only after an explicit user request: `adversarial-quality-loop` returns one independent review report; it cannot start another build pass.
 
 ### Skill Reference
 
 | Skill | Purpose |
 |---|---|
-| [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **Entry point.** Expands one vague sentence into a premise with explicit assumptions, routes the pipeline, loops build → evidence → repair |
-| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | Real quality loop with separated Planner / Builder / Evaluator / Evidence Auditor roles. Self-critique never counts; degraded solo mode must be declared |
-| [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | Thin router: sends a website task to the smallest relevant specialist |
+| [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **Entry point.** Expands one vague sentence into a premise, selects one bounded route, collects route-specific evidence, and hands off |
+| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | Explicit-only, one-time independent review. Returns a finite report and cannot automatically start another build pass |
+| [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | Thin router: selects the smallest bounded route and relevant specialist |
 | [`visual-story-direction`](skills/visual-story-direction/SKILL.md) | Visible premise, hierarchy, material direction, and visual critique before effects |
 | [`website-motion-intake`](skills/website-motion-intake/SKILL.md) | Existing-project stack, ownership, accepted baseline, and verification route |
 | [`motion-choreography`](skills/motion-choreography/SKILL.md) | Motion lanes (CSS / Motion / GSAP / canvas / WebGL), scroll behavior, cleanup, reduced-motion fallback |
@@ -136,6 +133,7 @@ Optional executable browser evidence requires Playwright; scroll recordings also
 ## Design Principles
 
 - **One skill, one decision boundary.** A tiny CSS fix does not need seven modules; load one decision-shaped skill at a time.
+- **Route once, then stop.** Each non-trivial task selects one base route, one experience lane, and one delivery gate. Evidence closes the selected route; it does not authorize autonomous taste loops.
 - **Framework-neutral.** CSS, Motion, GSAP, canvas, and WebGL are lanes to choose, not required dependencies. Static HTML/CSS is a valid and often correct output.
 - **Evidence is a capability, not a claim.** Verification vocabulary stays in evidence reports, never in shipped page copy.
 - **Clean-room public bundle.** No credentials, client assets, private prompts, or internal runtime configuration — enforced by an automated release-contract scan.

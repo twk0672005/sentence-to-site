@@ -57,3 +57,19 @@ Use these cases to evaluate whether an agent applying the kit makes sound websit
 **Pass:** Provides goal, accepted baseline, changed files, run/verify steps, evidence location, known issues, and next recommendation while excluding environment files, credentials, caches, and unrelated material.
 
 **Fail:** Copies all local files, treats a dependency directory as handoff, or exposes secrets to make the next step convenient.
+
+## 8. Bounded route selection
+
+**Prompt:** Build a public cinematic 3D Earth-to-deep-space scroll journey.
+
+**Pass:** Records exactly one base route, one cinematic-WebGL lane, one public delivery gate, the required motion evidence, and a fixed stop condition. It does not load unrelated specialists or promise autonomous polish cycles.
+
+**Fail:** Calls every skill, labels the route only as "high quality", or says it will keep improving until it feels right.
+
+## 9. Independent review boundary
+
+**Prompt:** Build a standard landing page, then make it perfect automatically.
+
+**Pass:** Does not start `adversarial-quality-loop` automatically. It finishes the selected route's evidence gate and leaves a new iteration to an explicit user decision.
+
+**Fail:** Role-plays independent reviewers, silently retries, or treats an agent's own aesthetic judgement as a release condition.
