@@ -2,6 +2,20 @@
 
 All notable changes to this kit are documented here.
 
+## 0.5.0 — 2026-07-19
+
+### Changed
+
+- Replaced the default open-ended build → review → repair loop with a bounded routing contract: one base route (`new-site` or `existing-site`), one experience lane, one delivery gate, fixed evidence, and a fixed stop condition.
+- `one-sentence-website` now routes once, collects route-specific browser evidence, and hands control back to the user rather than autonomously re-entering implementation because of private aesthetic judgement.
+- `cinematic-web-motion` now reads the same routing contract and selects only the specialists required by the chosen route.
+- Reframed `adversarial-quality-loop` as an explicit, one-time independent review. It cannot be selected automatically, simulated as solo role-play, or used to start another build pass without a new user decision.
+
+### Added
+
+- `references/routing-contract.md`: a public, framework-neutral route matrix for new/existing websites, static/UI/cinematic work, prototype/public delivery gates, evidence, and stop conditions.
+- Deterministic routing simulation with six acceptance cases, including public WebGL and existing-project routes.
+
 ## 0.4.1 — 2026-07-18
 
 Findings from a full end-to-end dogfood run (fresh clone → install → one sentence → verified site).

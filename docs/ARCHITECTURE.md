@@ -6,7 +6,7 @@ This is a small skill library, not a monolithic prompt and not an agent framewor
 skills/
   catalog.json                 discovery metadata and module map
   one-sentence-website/        flagship entry point: one sentence → verified site
-  adversarial-quality-loop/    separated-role quality loop (never self-critique)
+  adversarial-quality-loop/    explicit, one-time independent review
   cinematic-web-motion/        thin router for the complete bundle
   visual-story-direction/      visual premise and critique
   website-motion-intake/       existing-project discovery and ownership
@@ -23,6 +23,7 @@ evals/                         library-level acceptance cases
 
 - **One skill, one decision boundary.** A module must answer a distinct question; it must not be a differently named copy of another skill.
 - **Thin entry, deep references.** `SKILL.md` explains when and how to decide. Long checklists, tooling detail, and templates live outside it.
+- **Bounded routing.** Select one base route, one experience lane, and one delivery gate from `references/routing-contract.md`; do not let an agent reclassify a task because it dislikes its own output.
 - **Progressive disclosure.** Use the router or one specialist skill first; open only the linked reference needed for the task.
 - **Shared guidance is canonical.** Specialist skills link to root `references/`; do not fork the same rule across folders.
 - **Evidence is a capability, not a claim.** Browser scripts and templates support proof, but the actual verdict remains `pass`, `partial`, or `blocked`.
