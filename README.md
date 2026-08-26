@@ -1,155 +1,137 @@
-<div align="center">
+# Afuu Website + Animation Workflow Kit
 
-# ✨ sentence-to-site · Agent Skill Library
+**Version:** v1.3.3 — Clean Result Core
+**Purpose:** 用最少流程做出可見、可驗證、可交付嘅網站／動畫作品。
 
-**One sentence in. A verified website out — and it knows when to stop.**
+這是一個 workflow 參考包，不是 starter app、身份檔案或 Hermes 安裝包。
 
-Fills in your requirements instead of asking 20 questions · Picks one bounded route before building · No cookie-cutter AI-looking pages · Motion is planned, not sprinkled on · Only "done" after real-browser screenshot checks
+## 先讀這裡
 
-*Vibe coding runs on feel; software engineering runs on discipline. This kit makes the route, evidence, and stop condition explicit — one sentence, even from someone who has never written code, becomes a bounded website task that can be verified honestly.*
-
-[![CI](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-skills.yml)
-[![Agent Skills](https://img.shields.io/badge/Agent-Skills-blueviolet)](skills/catalog.json)
-[![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-d97757)](https://claude.com/claude-code)
-[![Codex](https://img.shields.io/badge/Codex-compatible-black)](https://openai.com/codex/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-**English** | [繁體中文](README_zh-TW.md)
-
-</div>
-
----
-
-## 🖼️ Live Showcase
-
-> **This site was produced with this exact workflow** — one-sentence brief → visual direction → motion choreography → screenshot-verified delivery. **Click to visit.**
-
-[![ORBITAL — From Earth into deep space](docs/assets/showcase-orbital.png)](https://twk0672005.github.io/orbital-spatial-intelligence/)
-
-🔗 **https://twk0672005.github.io/orbital-spatial-intelligence/**
-
----
-
-## Why This Kit?
-
-Agents are already good at generating web code. What they get wrong is everything **around** the code:
-
-| Failure mode | Bare agent | **With sentence-to-site** |
-|---|---|---|
-| Vague idea → questionnaire back at you | ❌ interrogates | ✅ expands into decisions + explicit assumptions |
-| Same gradient-and-glass page for every prompt | ❌ generic | ✅ anti-generic visual direction with one visible promise |
-| "Done" because the build passed | ❌ never rendered | ✅ real-browser screenshots + readback required |
-| Quietly keeps retrying because it wants the page to look better | ❌ open-ended loop | ✅ one explicit route, fixed evidence, and a stop condition |
-| Motion added as decoration, breaks on mobile | ❌ ad-hoc | ✅ choreography lanes + reduced-motion fallback |
-| Handoff with no record of assumptions | ❌ silent | ✅ every inferred decision listed and veto-able in one line |
-
-The core rule everywhere: **completion is a browser verdict, never a build exit code.**
-
-You have a vague idea — *"a personal website for my clothing brand, refined, not a template"*. An AI agent loaded with this kit turns that sentence into a bounded website task: it expands the idea into a design premise, records one route, makes the small decisions on your behalf (and tells you which ones), builds the page, **looks at it in a real browser**, collects the evidence that route requires, and hands it back at a fixed stop condition. A new visual iteration starts only when the user chooses one.
-
-This is a **skill library for AI agents** (Claude Code, Codex, and any agent that reads `SKILL.md` files) — not a website builder app, not a giant prompt, not a framework.
-
----
-
-## Architecture
+日常任務只需要：
 
 ```text
-                        one vague sentence
-                                │
-                                ▼
-                ┌───────────────────────────────┐
-                │     one-sentence-website      │  flagship entry point
-                │  expand → decide → assume     │
-                └───────────────┬───────────────┘
-                                │ routes the pipeline
-        ┌───────────────┬───────┴───────┬───────────────────┐
-        ▼               ▼               ▼                   ▼
-┌───────────────┐ ┌─────────────┐ ┌─────────────────┐ ┌────────────────┐
-│ visual-story- │ │ website-    │ │ motion-         │ │ browser-       │
-│ direction     │ │ motion-     │ │ choreography    │ │ evidence       │
-│ premise,      │ │ intake      │ │ CSS/GSAP/WebGL  │ │ screenshots,   │
-│ anti-generic  │ │ existing    │ │ lanes, reduced  │ │ readback,      │
-│ hierarchy     │ │ repo read   │ │ motion          │ │ honest verdict │
-└───────────────┘ └─────────────┘ └─────────────────┘ └───────┬────────┘
-                                                              ▼
-                              ┌───────────────────────┐
-                              │   delivery-handoff    │
-                              │ route, evidence,      │
-                              │ known issues, choices │
-                              └───────────────────────┘
-
+1. README.md
+2. workflows/website-workflow.md 或 workflows/animation-workflow.md
+3. 真正需要時才讀 specialist reference / included skill
 ```
 
-Optional only after an explicit user request: `adversarial-quality-loop` returns one independent review report; it cannot start another build pass.
+不要預設讀完整 file architecture、maintenance map、全部 prompts 或全部 included skills。
 
-### Skill Reference
+## 核心 Workflow
 
-| Skill | Purpose |
-|---|---|
-| [`one-sentence-website`](skills/one-sentence-website/SKILL.md) | **Entry point.** Expands one vague sentence into a premise, selects one bounded route, collects route-specific evidence, and hands off |
-| [`adversarial-quality-loop`](skills/adversarial-quality-loop/SKILL.md) | Explicit-only, one-time independent review. Returns a finite report and cannot automatically start another build pass |
-| [`cinematic-web-motion`](skills/cinematic-web-motion/SKILL.md) | Thin router: selects the smallest bounded route and relevant specialist |
-| [`visual-story-direction`](skills/visual-story-direction/SKILL.md) | Visible premise, hierarchy, material direction, and visual critique before effects |
-| [`website-motion-intake`](skills/website-motion-intake/SKILL.md) | Existing-project stack, ownership, accepted baseline, and verification route |
-| [`motion-choreography`](skills/motion-choreography/SKILL.md) | Motion lanes (CSS / Motion / GSAP / canvas / WebGL), scroll behavior, cleanup, reduced-motion fallback |
-| [`browser-evidence`](skills/browser-evidence/SKILL.md) | Running-artifact proof: screenshots, browser readback, recordings, verdict vocabulary `pass` / `partial` / `blocked` |
-| [`delivery-handoff`](skills/delivery-handoff/SKILL.md) | Bounded delivery: scope, evidence locations, known issues, privacy-safe continuation |
+```text
+鎖定可見結果
+→ 看必要現況與 strongest accepted baseline
+→ 只有概念真空白時做一次有界參考研究
+→ 選最細足夠 lane
+→ 做一個真正有用的 visible slice
+→ 在 browser / real media 驗證
+→ 同範圍 repair 或停手交付
+```
 
-The machine-readable map is [`skills/catalog.json`](skills/catalog.json). Each skill ships its own eval fixture; shared guidance has one canonical copy under [`references/`](references/).
+### 網站
 
----
+使用 `workflows/website-workflow.md`：
 
-## 🚀 Install
+- 定義目標用戶、第一眼感覺、主要行動；
+- 只有頁面／flow／視覺語言未定義時，按需讀 `workflows/refero-inspiration.md`；
+- 保留已經成立的版本；
+- 只改達成今次結果所需範圍；
+- 看 desktop、mobile、console、主要 flow；
+- 用清楚停手條件防止自行擴 scope。
 
-Copy the skills into your agent's skill directory (see [Installation](docs/INSTALLATION.md) for details):
+### 動畫 / WebGL
+
+使用 `workflows/animation-workflow.md`：
+
+- 動畫必須服務情緒、故事、狀態或注意力；
+- 明確 Motion / GSAP / CSS / WebGL ownership；
+- 先分類 Micro、Choreographed 或 Cinematic，低層級唔自動升級；
+- Choreographed／Cinematic 先做 motion direction、beat sheet、timeline，再分 architecture、scene choreography、timing polish 三層實作；
+- 真 Three.js／WebGL 場景先條件式載入 `threejs-cinematic-motion`，由佢負責場景、鏡頭、時間重量、mobile、fallback 同驗證；
+- 再按實際問題揀 1–3 個 `threejs-*` 技術參考；禁止全包注入，普通 UI motion 不增加負擔；
+- 用短片或時間序列驗證，不靠單張 screenshot；
+- desktop 與 mobile 分開看；
+- 新版 visibly worse 就保留舊 baseline。
+
+## 何時加額外流程
+
+只按觸發條件加：
+
+- **大型 repo 或架構混亂** → `workflows/file-architecture-workflow.md`
+- **公開／賣畀客／高風險視覺作品** → 提高 browser／interaction／handoff 證據；獨立 evaluator 仍只在用戶明確要求時加入
+- **時間性動畫／VFX** → MP4、contact sheet 或 deterministic frames
+- **用戶明確要求小隊／多條獨立研究線** → subagents / ClawTeam
+- **需要配置 Hermes／MCP** → 對應 included skill
+- **普通內部修改** → 不開角色小隊、不做 evidence scoring 儀式
+
+## 最低驗證
+
+### 靜態／網站
+
+- 一個主要 viewport 真畫面
+- Title／H1／主要 CTA readback
+- Console／page 無阻斷錯誤
+- 主流程可用
+- 今次涉及 responsive 先補另一 viewport
+- 一句人話質量判斷
+
+### 動畫
+
+以上再加其中一項：
+
+- 6–12 秒 MP4；或
+- contact sheet / semantic keyframes；或
+- mid-transition / scroll-state evidence。
+
+技術通過不等於畫面好。最終判斷以可見成品為準。
+
+## 工具
+
+已有 dev server：
 
 ```bash
-git clone https://github.com/twk0672005/sentence-to-site.git
-# Claude Code — copy the skill folders AND the shared references they link to
-cp -r sentence-to-site/skills/*/ ~/.claude/skills/
-cp -r sentence-to-site/references ~/.claude/
-# or point your agent at skills/catalog.json inside the cloned bundle
+ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/verify_browser_artifact.py
+ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/record_browser_scroll.py
 ```
 
-> Windows: use `python` instead of `python3` in the commands below. For the optional browser-evidence scripts, also run `pip install -r requirements.txt && playwright install chromium` once.
-
-Then give your agent one sentence:
-
-> *"a personal website for my clothing brand, refined, not a template"*
-
-Validate the repository before use or release:
+靜態 artifact：
 
 ```bash
-python3 scripts/validate_skill_package.py
-python3 tests/validate_skill.py
-python3 tests/validate_skill_library.py
-python3 tests/validate_release_contract.py
+ARTIFACT_ROOT=/path/to/site python3 scripts/verify_browser_artifact.py
+ARTIFACT_ROOT=/path/to/site python3 scripts/record_browser_scroll.py
 ```
 
-Optional executable browser evidence requires Playwright; scroll recordings also require FFmpeg. See [`references/tooling.md`](references/tooling.md).
+## Optional skill index
 
----
+`included-skills/` 只保存**按需 Skill 路由索引**，不再內嵌完整 Skill 副本。
 
-## Design Principles
+正常網站任務最多先讀一個主要 design skill；只有遇到實際問題先加 architecture、reel、MCP、image generation、multi-agent 或 handoff skill。
 
-- **One skill, one decision boundary.** A tiny CSS fix does not need seven modules; load one decision-shaped skill at a time.
-- **Route once, then stop.** Each non-trivial task selects one base route, one experience lane, and one delivery gate. Evidence closes the selected route; it does not authorize autonomous taste loops.
-- **Framework-neutral.** CSS, Motion, GSAP, canvas, and WebGL are lanes to choose, not required dependencies. Static HTML/CSS is a valid and often correct output.
-- **Evidence is a capability, not a claim.** Verification vocabulary stays in evidence reports, never in shipped page copy.
-- **Clean-room public bundle.** No credentials, client assets, private prompts, or internal runtime configuration — enforced by an automated release-contract scan.
+不要一次載入全部 skills。不要將 skills file count 當成套件品質。
 
-Read [Architecture](docs/ARCHITECTURE.md) before adding modules.
+## 生產力規則
 
----
+- 一個可見 artifact 同一時間只准一個 writer。
+- 一個線性修改唔需要四個角色。
+- 一次 iteration 必須有 visible/testable delta。
+- scheduling、報告、checklist 唔等於進度。
+- 不為了「完整」而建立新文件、Prompt、Gate 或版本。
+- 公開或高價值唔等於自動多 agent、多 evaluator 或重做 design system。
+- strongest approved baseline 永遠優先於 technically cleaner but visibly weaker candidate。
 
-## Contributing
+## Optional / archive-style references
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). A new skill must have a distinct trigger, decision boundary, catalog entry, focused eval, and validation result; a differently named duplicate is not a contribution.
+以下保留作按需查閱，不進入正常 reading path：
 
-## Security
+- `docs/workflow-kit-maintenance-map.md`
+- `WORKFLOW_COMPLETENESS_AUDIT.md`
+- `PACKAGING_AUDIT.md`
+- `prompts/`
+- `checklists/`
+- `included-skills/`
+- 深度 architecture / MCP / handoff 文件
 
-Read [SECURITY.md](SECURITY.md). Do not report credentials or exploit details publicly.
+## 安全
 
-## License
-
-[MIT](LICENSE)
+不包含 API key、token、memory、cron、config、service 或身份檔。任何 credential 只可顯示為 `[REDACTED]`。

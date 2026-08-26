@@ -1,27 +1,27 @@
-name: Skill request
-description: Propose a new decision-shaped skill or a substantial module improvement.
-title: "skill: "
-labels: ["skill-request"]
+name: Workflow improvement request
+description: Propose a website, animation, evidence, or specialist-routing improvement.
+title: "workflow: "
+labels: ["workflow-request"]
 body:
   - type: textarea
     id: trigger
     attributes:
       label: Trigger and user problem
-      description: Describe when an agent should load this skill and what is currently hard or unsafe.
+      description: Describe the real task or failure that should load or change this workflow guidance.
     validations:
       required: true
   - type: textarea
     id: boundary
     attributes:
       label: Decision boundary
-      description: Explain why this is not a duplicate of an existing module.
+      description: Explain what belongs in the daily workflow and what should remain optional.
     validations:
       required: true
   - type: textarea
     id: evidence
     attributes:
-      label: Evaluation idea
-      description: Give one passing scenario and one failure or boundary scenario.
+      label: Runnable evidence
+      description: Describe the artifact, viewport, interaction, animation states, or regression case that can prove the change.
     validations:
       required: true
   - type: checkboxes
@@ -29,5 +29,5 @@ body:
     attributes:
       label: Safety
       options:
-        - label: This request contains no credentials, private client material, or copied private prompts.
+        - label: This request contains no credentials, private client material, absolute local paths, or copied private prompts.
           required: true

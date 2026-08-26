@@ -1,1 +1,0 @@
-{"skill":"browser-evidence","cases":[{"id":"motion-proof","prompt":"The build passes. Can I call a scroll animation done?","mustInclude":["running artifact","representative states","motion evidence","verdict"]},{"id":"missing-runtime","prompt":"Chromium cannot start in this environment.","mustInclude":["partial or blocked"],"mustAvoid":["invented evidence"]}]}

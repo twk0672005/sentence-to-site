@@ -1,0 +1,37 @@
+{
+  "package": "Afuu Website + Animation Workflow Kit",
+  "version": "1.3.3-clean-result-core",
+  "mode": "index-only",
+  "reason": "Avoid stale duplicated skill sources and prevent unrelated project runbooks from entering the default website/animation package.",
+  "default_reading": [
+    "README.md",
+    "workflows/website-workflow.md OR workflows/animation-workflow.md"
+  ],
+  "optional_skills": [
+    "design-taste-frontend",
+    "creative-browser-artifacts",
+    "adversarial-quality-loop",
+    "threejs-cinematic-motion",
+    "threejs-fundamentals",
+    "threejs-geometry",
+    "threejs-materials",
+    "threejs-lighting",
+    "threejs-textures",
+    "threejs-animation",
+    "threejs-loaders",
+    "threejs-shaders",
+    "threejs-postprocessing",
+    "threejs-interaction",
+    "verification-before-completion",
+    "frontend-technical-architecture-gate",
+    "social-reel-agent-system-recon",
+    "redesign-existing-projects",
+    "imagegen-frontend-web",
+    "hermes-agent",
+    "native-mcp",
+    "dispatching-parallel-agents",
+    "clawteam"
+  ],
+  "bundled_skill_sources": false,
+  "legacy_full_source": "v1.2.6-file-architecture-merged (archived/rollback only)"
+}

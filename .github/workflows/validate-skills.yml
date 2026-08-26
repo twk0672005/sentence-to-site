@@ -1,4 +1,4 @@
-name: Validate skill library
+name: Validate v1.3.3 workflow kit
 
 on:
   push:
@@ -15,11 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate package structure and public boundaries
-        run: |
-          python3 scripts/validate_skill_package.py
-          python3 tests/validate_skill.py
-          python3 tests/validate_skill_library.py
-          python3 tests/validate_release_contract.py
-      - name: Compile executable utilities
-        run: python3 -m py_compile scripts/*.py
+      - name: Validate complete public release
+        run: python3 .github/scripts/validate-release.py

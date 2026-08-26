@@ -1,1 +1,0 @@
-{"skill":"visual-story-direction","cases":[{"id":"premise-before-effect","prompt":"Make this architecture studio site feel cinematic.","mustInclude":["audience","first impression","hierarchy","material direction"]},{"id":"reject-decoration","prompt":"Add an animated gradient and glass cards everywhere.","mustAvoid":["effects without a visual job"]}]}
