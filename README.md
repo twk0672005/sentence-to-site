@@ -29,30 +29,127 @@
 → 同範圍 repair 或停手交付
 ```
 
-### 網站
+## 兩條 Workflow 點樣配合
 
-使用 `workflows/website-workflow.md`：
+網站 Workflow 負責頁面目標、內容層級、視覺方向、主要行動、responsive 結構、browser QA 同交付邊界。動畫 Workflow 只在 movement 真係服務情緒、故事、狀態或注意力時加入，唔會因為「高級」而自動升級。
 
-- 定義目標用戶、第一眼感覺、主要行動；
-- 只有頁面／flow／視覺語言未定義時，按需讀 `workflows/refero-inspiration.md`；
-- 保留已經成立的版本；
-- 只改達成今次結果所需範圍；
-- 看 desktop、mobile、console、主要 flow；
-- 用清楚停手條件防止自行擴 scope。
+```text
+Website Workflow
+├─ static：內容、層級、排版與 CTA 已足夠
+├─ ui-motion：按需要進入 Micro 或 Choreographed Motion
+│  ├─ UI Motion：modal、menu、route、state transition
+│  └─ Scroll Story：章節、pin、reveal、視覺敘事
+└─ cinematic-webgl：進入 Cinematic WebGL
+```
 
-### 動畫 / WebGL
+網站 Workflow 擁有「做甚麼」同「何時算完成」；動畫 Workflow 擁有「點樣郁」同「點樣證明時間體驗成立」。
 
-使用 `workflows/animation-workflow.md`：
+## 網站 Workflow：流程架構
 
-- 動畫必須服務情緒、故事、狀態或注意力；
-- 明確 Motion / GSAP / CSS / WebGL ownership；
-- 先分類 Micro、Choreographed 或 Cinematic，低層級唔自動升級；
-- Choreographed／Cinematic 先做 motion direction、beat sheet、timeline，再分 architecture、scene choreography、timing polish 三層實作；
-- 真 Three.js／WebGL 場景先條件式載入 `threejs-cinematic-motion`，由佢負責場景、鏡頭、時間重量、mobile、fallback 同驗證；
-- 再按實際問題揀 1–3 個 `threejs-*` 技術參考；禁止全包注入，普通 UI motion 不增加負擔；
-- 用短片或時間序列驗證，不靠單張 screenshot；
-- desktop 與 mobile 分開看；
-- 新版 visibly worse 就保留舊 baseline。
+完整執行規則見 [`workflows/website-workflow.md`](workflows/website-workflow.md)。
+
+### 整體流向
+
+```text
+Brief / reference / existing site
+→ Result Lock
+→ 必要時做一次有界參考研究 → Original Design Lock
+→ 讀必要現況與 strongest accepted baseline
+→ 選最細足夠 experience lane
+→ 建造一個完整 visible slice
+→ 真瀏覽器驗證
+→ Public／旗艦任務先做一次 bounded review → 最多修一刀
+→ Stop / handoff
+```
+
+### 開工決策 Contract
+
+| 決策 | 可選值／要回答的問題 |
+|---|---|
+| Base route | `new-site` 或 `existing-site` |
+| Experience lane | `static`、`ui-motion` 或 `cinematic-webgl` |
+| Delivery gate | `prototype` 或 `public` |
+| Visual source | `direct-build`、`reference-locked` 或 `shared-canvas` |
+| Five-second message | 訪客第一眼要明白甚麼？ |
+| Primary action | 訪客最重要的下一步係甚麼？ |
+| Protected baseline | 邊部分已經成立，絕對唔可以倒退？ |
+| Required evidence | 今次完成聲稱需要甚麼真實證據？ |
+| Stop condition | 去到邊個可驗證狀態就停手？ |
+
+### 8 個階段
+
+| 階段 | 核心動作 | 可見輸出 |
+|---|---|---|
+| 1. Result Lock | 鎖定目標用戶、五秒訊息、主要行動、route、lane、證據與停手條件 | 一份短而明確的 execution contract |
+| 2. Concept / Design Lock | 只有結構或視覺語言未定義時，最多比較 3 個候選；抽取規則後綜合成原創方向 | Page anatomy、hierarchy、palette、type、spacing、material、motion 的 Do／Avoid |
+| 3. Current-state intake | 新站只讀 brief、素材與輸出要求；現有站只讀入口、框架、styles、主要頁面、motion ownership、部署與最佳 baseline | 最少但足夠的 repo／artifact 理解 |
+| 4. Route selection | 選 `static`、`ui-motion` 或 `cinematic-webgl`；額外技術必須對已鎖定結果有必要性 | 一條最短可行路線 |
+| 5. Visible slice | 先完成訊息、可信度、CTA、responsive 結構，再修層級、構圖、字體、spacing，最後先加 motion／3D | 一段完整、可見、可操作的成品 |
+| 6. Browser evidence | 驗 desktop／mobile、CTA、navigation、form、keyboard、console、failed requests、overflow；motion／WebGL 補時間與狀態證據 | Fresh screenshots、readback、keyframes／MP4 與錯誤狀態 |
+| 7. Bounded review | 只限 public／旗艦要求：做 1 次完整評分，只修最高影響力 1 刀，再重驗受影響證據 | 一次有界 quality pass，唔進入無限 review loop |
+| 8. Stop / handoff | 證據齊就停；未齊則誠實標記 `partial`／`blocked` | Artifact、使用方式、證據、限制與待用戶決定事項 |
+
+## 動畫 Workflow：流程架構
+
+完整執行規則見 [`workflows/animation-workflow.md`](workflows/animation-workflow.md)。
+
+### Lane hierarchy
+
+```text
+Motion need
+├─ Micro Motion
+│  └─ hover、focus、press、短 feedback
+├─ Choreographed Motion
+│  ├─ UI Motion：modal、menu、route、state transition
+│  └─ Scroll Story：章節、pin、reveal、視覺敘事
+└─ Cinematic WebGL
+   └─ camera、depth、space、particles、orbitable scene／3D world
+```
+
+CSS／Motion 做到就唔升級。只有空間、相機或 3D 世界本身承載結果時，先進入 Cinematic WebGL。
+
+### 完整執行鏈
+
+```text
+Motion purpose
+→ Lane selection
+→ Scene / Technical Lock（Cinematic 才需要）
+→ Motion direction
+→ Beat sheet
+→ Deterministic timeline
+→ Architecture
+→ Scene choreography
+→ Timing polish
+→ Browser evidence
+→ Public 任務：一次 bounded review → 最多修一刀
+→ Stop / handoff
+```
+
+### 10 個階段
+
+| 階段 | 核心動作 | 主要輸出 |
+|---|---|---|
+| 1. Purpose / lane | 每段動畫至少服務情緒、故事、狀態、注意力或可信度其中一項，再選 Micro、Choreographed 或 Cinematic | 明確 motion job；冇工作就刪 |
+| 2. Scene / Technical Lock | Cinematic 任務鎖主體、世界、視角、相機自由度、材質、光、情緒、真實度、host stack、Three.js 版本與 fallback | Scene lock + technical lock |
+| 3. Reference / ImageGen | 只在已命名缺口使用 Refero／ImageGen；參考補空白，生成資產唔可以改寫 scene lock | 原創視覺方向或有來源紀錄的 supporting asset |
+| 4. Technical router | 真 Three.js 工作先讀 fundamentals，再按當前問題揀最多 1–3 個專項；唔全包注入 | 最細足夠的技術組合 |
+| 5. Motion ownership | 同一元素同一時間只准一個 owner：CSS、Motion、GSAP 或 Three.js | 無 transform ownership 衝突的 architecture |
+| 6. Pre-production | Choreographed／Cinematic 先寫 motion direction、beat sheet、timeline；定義 trigger、enter、active、exit／settle、mobile 與 reduced-motion alternative | 可執行而非「大概順」的時間設計 |
+| 7. Implementation layers | 依次完成 Architecture → Scene choreography → Timing polish；上層未成立，不用 polish 掩飾 | 穩定 lifecycle、清楚視覺因果、最後先微調 easing／stagger |
+| 8. Cinematic build | 依次做 silhouette／composition → camera／world scale → light／material／texture → main action → interaction → loading／fallback／mobile tier → post-FX | 先成立的 3D 世界，再加氣氛 |
+| 9. Time-based evidence | 驗 start／mid／settled、desktop／mobile、touch、occlusion、resize、loading、fallback、reduced motion、performance 與 cleanup | MP4、contact sheet、semantic keyframes 或 scroll-state evidence |
+| 10. Review / stop | Public 任務只做 1 次正式 review、最多 1 刀同路線修正；重驗後停手，交回用戶判斷 | 可見 artifact、lane、owner、證據、fallback 與已知限制 |
+
+### Motion ownership
+
+| Owner | 適合負責 |
+|---|---|
+| CSS | hover、focus、tiny transition、細微 texture |
+| Motion | component、layout、route 與 state transition |
+| GSAP | scroll timeline、長 sequence、pin／scrub 編排 |
+| Three.js | scene 物件、camera、shader 與 spatial interaction |
+
+同一個 transform 唔可以同時由多套工具控制。每段 sequence 都要有 trigger、outcome、states、cleanup、mobile alternative 同 reduced-motion alternative。
 
 ## 何時加額外流程
 
