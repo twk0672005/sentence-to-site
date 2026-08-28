@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "name": "Afuu Website + Animation Workflow Kit",
+  "version": "1.4.0",
+  "edition": "truthful-evidence-core",
+  "productType": "reference-kit",
+  "previousMainCommit": "9afce9b3ded7b2d2dcf41ade41872ee6ac2c4495",
+  "defaultReading": {
+    "entry": "README.md",
+    "chooseOne": [
+      "workflows/website-workflow.md",
+      "workflows/animation-workflow.md"
+    ]
+  },
+  "alternateLanguages": {
+    "zh-HK": "README.md",
+    "en": "README.en.md"
+  },
+  "distributionFiles": [
+    "CHANGELOG.md",
+    "CURRENT_BASELINE.md",
+    "LICENSE",
+    "README.en.md",
+    "README.md",
+    "checklists/animation-preflight.md",
+    "checklists/delivery-checklist.md",
+    "checklists/frontend-preflight.md",
+    "checklists/handoff-bundle.md",
+    "checklists/project-intake.md",
+    "docs/codex-claude-usage.md",
+    "docs/tooling-setup.md",
+    "docs/troubleshooting.md",
+    "docs/workflow-kit-maintenance-map.md",
+    "examples/orbital-jake-effects-case-study.md",
+    "included-skills/README.md",
+    "included-skills/SKILLS_MANIFEST.json",
+    "included-skills/THREEJS_SOURCE_LOCK.json",
+    "kit-manifest.json",
+    "prompts/visual-reference-extractor.md",
+    "requirements.txt",
+    "scripts/browser_common.py",
+    "scripts/record_browser_scroll.py",
+    "scripts/verify_browser_artifact.py",
+    "workflows/animation-workflow.md",
+    "workflows/evidence-gate.md",
+    "workflows/evidence-scoring.md",
+    "workflows/file-architecture-workflow.md",
+    "workflows/high-end-public-review.md",
+    "workflows/mcp-and-skills-install.md",
+    "workflows/refero-inspiration.md",
+    "workflows/website-workflow.md"
+  ],
+  "repositoryOnly": {
+    "requiredFiles": [
+      ".gitattributes",
+      ".gitignore",
+      ".github/ISSUE_TEMPLATE/bug-report.yml",
+      ".github/ISSUE_TEMPLATE/skill-request.yml",
+      ".github/PULL_REQUEST_TEMPLATE.md",
+      ".github/scripts/run-browser-smoke.py",
+      ".github/scripts/validate-release.py",
+      ".github/workflows/validate-release.yml",
+      "CODE_OF_CONDUCT.md",
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "tests/__init__.py",
+      "tests/fixtures/static-site/index.html",
+      "tests/test_browser_common.py",
+      "tests/test_release_validator.py"
+    ],
+    "allowedPrefixes": [
+      ".github/",
+      "docs/history/",
+      "tests/"
+    ]
+  },
+  "generatedEvidence": [
+    "distribution/",
+    "reports/"
+  ]
+}

@@ -4,7 +4,12 @@
 
 Use this scorecard only when the route is explicitly `public` and the user asks for a high-end, flagship, flawless, award-grade, client-ready, or publish-ready result. Ordinary corrections and prototypes do not load it.
 
-This is one rigorous self-review, not an autonomous taste loop. Build the strongest scoped candidate first, score it once from fresh browser evidence, repair the single highest-impact defect at most once, re-check the affected evidence, then stop and ask the user whether the intended effect has been reached.
+This is one rigorous independent review, not an autonomous taste loop. Build the
+strongest scoped candidate first, complete the required coverage in
+[evidence-gate.md](evidence-gate.md), then give the locked contract, baseline,
+candidate and fresh evidence to an evaluator who is not the builder. Score once,
+repair the single highest-impact defect at most once, re-check affected evidence,
+then stop and ask whether the intended effect has been reached.
 
 ## Evidence required before scoring
 
@@ -96,6 +101,7 @@ A `public-ready` candidate requires all of the following:
 - UX/UI at least 25/30;
 - no hard blocker;
 - fresh route-specific evidence;
+- a reviewer who is independent of the builder;
 - final user confirmation that the intended effect has been reached.
 
 An explicit “flawless”, “no-compromise”, or equivalent request sets a **flagship target of 92+**. The score is a disciplined diagnostic, not permission for the agent to approve its own taste or publish the work.
@@ -123,16 +129,20 @@ ThreeUI is optional. Use it only when a verified Community component directly su
 
 ## The one-review protocol
 
-1. Freeze the route, visual/scene lock, technical lock, and evidence set.
+1. Freeze the route, visual/scene lock, technical lock, baseline, candidate and
+   evidence set.
 2. Collect fresh browser evidence and clear any hard blocker required for honest scoring.
-3. Score all applicable rows once. Record the total, four pillar scores, evidence, and exact deductions.
+3. A fresh evaluator, not the builder, scores all applicable rows once. Record
+   the total, four pillar scores, evidence, and exact deductions.
 4. Select the single highest-impact repair: the defect with the strongest combination of visibility, route importance, and weighted score loss.
 5. Make at most one same-route polish pass. Do not add an unrelated feature, framework, dependency, evaluator, or effect.
 6. Re-run only the affected evidence plus regression checks. Update only the affected rubric rows and final total.
 7. Stop. Ask whether the intended effect has been reached.
 8. If the user says no, derive up to four choices from the actual lowest-scoring dimensions—for example composition/fidelity, atmosphere/material/light, motion/camera, or content/mobile/interaction. Ask for the missing detail and start a new iteration only after the user selects or describes it.
 
-Never review the review. Never run a private second taste pass under another name.
+Never review the review. Never run a private second taste pass under another
+name. If independence is unavailable, report PARTIAL rather than self-awarding a
+public-ready label.
 
 ## Review output
 
@@ -146,6 +156,10 @@ One repair made: <visible change>
 Re-check: <fresh evidence and affected score change>
 User effect check: pending
 ```
+
+The 100-point score is a high-end diagnostic label, not a second terminal status.
+Final workflow state still uses PASS／PARTIAL／FAIL／WAITING_FOR_NOVA from
+[evidence-gate.md](evidence-gate.md).
 
 ## Research basis
 

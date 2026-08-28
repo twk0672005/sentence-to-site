@@ -1,37 +1,43 @@
 {
   "package": "Afuu Website + Animation Workflow Kit",
-  "version": "1.3.3-clean-result-core",
+  "version": "1.4.0-truthful-evidence-core",
   "mode": "index-only",
-  "reason": "Avoid stale duplicated skill sources and prevent unrelated project runbooks from entering the default website/animation package.",
-  "default_reading": [
-    "README.md",
-    "workflows/website-workflow.md OR workflows/animation-workflow.md"
-  ],
+  "reason": "Keep the workflow standalone while routing only to currently available, source-checked optional capabilities.",
+  "default_reading": {
+    "entry": "README.md",
+    "choose_one": [
+      "workflows/website-workflow.md",
+      "workflows/animation-workflow.md"
+    ]
+  },
   "optional_skills": [
-    "design-taste-frontend",
-    "creative-browser-artifacts",
     "adversarial-quality-loop",
+    "artifact-provenance-and-handoff",
+    "autonomous-work",
+    "behavior-preserving-refactor",
+    "context7-mcp",
+    "creative-browser-artifacts",
+    "design-taste-frontend",
+    "dispatching-parallel-agents",
+    "frontend-technical-architecture-gate",
+    "imagegen-frontend-web",
+    "playwright-interactive",
+    "social-reel-agent-system-recon",
+    "source-driven-development",
+    "threejs-animation",
     "threejs-cinematic-motion",
     "threejs-fundamentals",
     "threejs-geometry",
-    "threejs-materials",
-    "threejs-lighting",
-    "threejs-textures",
-    "threejs-animation",
-    "threejs-loaders",
-    "threejs-shaders",
-    "threejs-postprocessing",
     "threejs-interaction",
-    "verification-before-completion",
-    "frontend-technical-architecture-gate",
-    "social-reel-agent-system-recon",
-    "redesign-existing-projects",
-    "imagegen-frontend-web",
-    "hermes-agent",
-    "native-mcp",
-    "dispatching-parallel-agents",
-    "clawteam"
+    "threejs-lighting",
+    "threejs-loaders",
+    "threejs-materials",
+    "threejs-postprocessing",
+    "threejs-shaders",
+    "threejs-textures",
+    "verification-before-completion"
   ],
   "bundled_skill_sources": false,
-  "legacy_full_source": "v1.2.6-file-architecture-merged (archived/rollback only)"
+  "threejs_authority": "Official mrdoob/three.js source/docs for the host project's exact version; see THREEJS_SOURCE_LOCK.json.",
+  "legacy_full_source": "Git history before v1.3.3 only; never auto-install or overwrite current active skills."
 }

@@ -6,11 +6,15 @@
 
 ## Single source of truth
 
+- 版本／distribution：`kit-manifest.json`
 - 日常入口：`README.md`
 - 網站核心：`workflows/website-workflow.md`
 - 動畫核心：`workflows/animation-workflow.md`
+- Evidence status／coverage：`workflows/evidence-gate.md`
 - 架構問題：`workflows/file-architecture-workflow.md`
+- Browser target/security：`scripts/browser_common.py`
 - Browser 工具：`scripts/verify_browser_artifact.py`、`scripts/record_browser_scroll.py`
+- Release truth gate：`.github/scripts/validate-release.py`
 - 深度／歷史資料：其他 docs、prompts、checklists、included-skills（按需）
 
 ## 維護原則
@@ -22,6 +26,8 @@
 5. 多角色只在真並行、獨立 judgement 或用戶明確要求時使用。
 6. 技術證據服務成品判斷，不可取代成品判斷。
 7. 新版本 visibly worse 時保留舊 approved baseline。
+8. Popularity唔係source/license/API authority；library-specific規則用official
+   host-version source。
 
 ## 變更 Gate
 
@@ -38,11 +44,15 @@
 
 ### Core
 
+- kit manifest
 - README
 - website workflow
 - animation workflow
+- evidence gate
 - concise file architecture workflow
+- shared browser target/security helper
 - two executable browser QA scripts
+- deterministic release validator and tests
 
 ### Optional
 
@@ -50,7 +60,7 @@
 - role prompts
 - evidence scoring
 - MCP/tooling docs
-- included skill source copies
+- included skill index／source provenance
 - packaging/audit history
 
 Optional 不等於無用；只代表唔應預設注入 context。
@@ -60,8 +70,9 @@ Optional 不等於無用；只代表唔應預設注入 context。
 - Markdown/frontmatter 可讀；
 - scripts syntax/tests 通過；
 - README links 指向存在檔案；
-- static/browser smoke 可執行；
-- canonical symlink／ZIP 指向正確版本；
+- static/browser/motion smoke 可執行，negative cases真係fail；
+- deterministic ZIP entries、SHA-256同source bytes一致；
+- README、baseline、skill manifest、source lock同kit manifest version一致；
 - default reading path 沒有重新膨脹。
 
 ## 禁止事項
@@ -71,3 +82,4 @@ Optional 不等於無用；只代表唔應預設注入 context。
 - 將 maintenance history 當 production workflow；
 - 用檔案數、角色數、checklist 數量證明品質；
 - 未驗證就覆蓋 canonical baseline。
+- 用phrase presence、HTTP 200、file exists或agent self-report冒充release PASS。

@@ -11,10 +11,17 @@ Keep the daily reading path short: `README.md` plus the relevant website or anim
 ## Before opening a pull request
 
 ```bash
-python3 .github/scripts/validate-release.py
+python -B .github/scripts/validate-release.py
+python -B -m unittest discover -s tests
 ```
 
 If browser behavior or motion changes, also exercise the affected workflow against a runnable artifact and include fresh desktop/mobile and time-sequence evidence. A build, HTTP 200, or one screenshot is not completion proof.
+
+Changes to browser utilities also run:
+
+```bash
+python -B .github/scripts/run-browser-smoke.py
+```
 
 Describe the user-visible benefit, changed workflow authority, evidence used, and any migration or compatibility impact. Do not include credentials, client material, private prompts, absolute local paths, cache artifacts, or root agent instruction files.
 

@@ -1,5 +1,6 @@
 # Generated browser evidence
 reports/
+distribution/
 
 # Local Python/browser setup
 .venv/

@@ -1,132 +1,275 @@
 #!/usr/bin/env python3
-"""Generic browser verification script for static website / WebGL artifacts.
+"""Fail-closed browser evidence for one explicit website route.
 
-Two modes:
-  1. Existing dev server:
-     ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/verify_browser_artifact.py
+Static build/staging directory:
+  ARTIFACT_ROOT=/path/to/dist TITLE_CONTAINS=Product python scripts/verify_browser_artifact.py
 
-  2. Static folder:
-     ARTIFACT_ROOT=/path/to/site ARTIFACT_PORT=4173 python3 scripts/verify_browser_artifact.py
+Existing localhost server:
+  ARTIFACT_URL=http://127.0.0.1:5173/ H1_CONTAINS=Product python scripts/verify_browser_artifact.py
 
-Requires:
-  pip install -r requirements.txt
-  playwright install chromium
+At least one identity marker is mandatory. Remote URLs require ALLOW_REMOTE_URL=1.
 """
 from __future__ import annotations
 
-import contextlib
-import http.server
 import json
-import os
-import socket
-import socketserver
-import threading
-import time
-from pathlib import Path
-from urllib.parse import urlparse
 
+from browser_common import (
+    browser_target,
+    env_bool,
+    file_receipt,
+    identity_expectations,
+    output_dir,
+    read_status,
+    receipt_url,
+    write_json,
+)
+from playwright.sync_api import Error as PlaywrightError
 from playwright.sync_api import sync_playwright
 
-ROOT = Path(os.environ.get("ARTIFACT_ROOT", ".")).resolve()
-PORT = int(os.environ.get("ARTIFACT_PORT", "4173"))
-ARTIFACT_URL = os.environ.get("ARTIFACT_URL", "").strip()
-TITLE_CONTAINS = os.environ.get("TITLE_CONTAINS", "")
-H1_CONTAINS = os.environ.get("H1_CONTAINS", "")
-OUT_BASE = Path(os.environ.get("ARTIFACT_REPORT_DIR", str(ROOT / "reports"))).resolve()
-OUT = OUT_BASE / ("browser-verify-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()))
 
-class QuietHandler(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, fmt, *args):
+VIEWPORTS = {
+    "desktop": {"width": 1440, "height": 1000},
+    "mobile": {"width": 390, "height": 844},
+    "narrow": {"width": 320, "height": 800},
+}
+
+
+def launch_args() -> list[str]:
+    args = ["--disable-dev-shm-usage"]
+    if env_bool("ENABLE_SWIFTSHADER", False):
+        args.extend(["--enable-webgl", "--ignore-gpu-blocklist", "--enable-unsafe-swiftshader"])
+    return args
+
+
+def settle(page: object) -> None:
+    page.wait_for_load_state("domcontentloaded", timeout=20_000)
+    try:
+        page.wait_for_load_state("networkidle", timeout=8_000)
+    except PlaywrightError:
         pass
+    page.wait_for_timeout(500)
 
-class ReuseTCPServer(socketserver.ThreadingTCPServer):
-    allow_reuse_address = True
 
-def port_open(port: int) -> bool:
-    with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-        s.settimeout(0.5)
-        return s.connect_ex(("127.0.0.1", port)) == 0
+def identity_issues(title: str, h1: str, body: str, expected: dict[str, str]) -> list[str]:
+    issues: list[str] = []
+    if expected["title"] and expected["title"] not in title:
+        issues.append(f"title marker missing: {expected['title']!r}")
+    if expected["h1"] and expected["h1"] not in h1:
+        issues.append(f"h1 marker missing: {expected['h1']!r}")
+    if expected["body"] and expected["body"] not in body:
+        issues.append(f"body marker missing: {expected['body']!r}")
+    return issues
 
-def valid_url(url: str) -> bool:
-    parsed = urlparse(url)
-    return parsed.scheme in ("http", "https") and bool(parsed.netloc)
+
+def inspect_keyboard(page: object, interactive_count: int) -> list[dict[str, object]]:
+    sequence: list[dict[str, object]] = []
+    if interactive_count <= 0:
+        return sequence
+    for _ in range(min(12, interactive_count + 2)):
+        page.keyboard.press("Tab")
+        focused = page.evaluate(
+            """() => {
+              const el = document.activeElement;
+              if (!el || el === document.body) return null;
+              const rect = el.getBoundingClientRect();
+              const style = getComputedStyle(el);
+              return {
+                tag: el.tagName.toLowerCase(),
+                id: el.id || null,
+                name: el.getAttribute('aria-label') || el.getAttribute('name') ||
+                  (el.textContent || '').trim().slice(0, 80) || null,
+                visible: rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' &&
+                  style.display !== 'none'
+              };
+            }"""
+        )
+        if focused and focused not in sequence:
+            sequence.append(focused)
+    return sequence
+
 
 def main() -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
-    server = None
-    if ARTIFACT_URL:
-        if not valid_url(ARTIFACT_URL):
-            raise SystemExit(f"Invalid ARTIFACT_URL: {ARTIFACT_URL}")
-        url = ARTIFACT_URL
-        serve_mode = "external-url"
-    else:
-        os.chdir(ROOT)
-        if not port_open(PORT):
-            server = ReuseTCPServer(("127.0.0.1", PORT), QuietHandler)
-            threading.Thread(target=server.serve_forever, daemon=True).start()
-        url = f"http://127.0.0.1:{PORT}/"
-        serve_mode = "static-root"
+    expected = identity_expectations()
+    require_reduced_static = env_bool("REQUIRE_REDUCED_STATIC", False)
+    out = output_dir("browser-verify")
+    summary: dict[str, object] = {
+        "kind": "browser-artifact-verification",
+        "verdict": "FAIL",
+        "issues": [],
+        "warnings": [],
+        "viewports": {},
+        "artifacts": [],
+    }
+    issues: list[str] = summary["issues"]  # type: ignore[assignment]
+    warnings: list[str] = summary["warnings"]  # type: ignore[assignment]
 
-    summary = {"url": url, "root": str(ROOT), "outputs": str(OUT), "serveMode": serve_mode}
     try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True, args=[
-                "--no-sandbox",
-                "--disable-dev-shm-usage",
-                "--enable-webgl",
-                "--ignore-gpu-blocklist",
-                "--enable-unsafe-swiftshader",
-            ])
-            for label, viewport in [("desktop", {"width": 1440, "height": 950}), ("mobile", {"width": 390, "height": 844})]:
-                page = browser.new_page(viewport=viewport)
-                console_errors = []
-                page_errors = []
-                failed = []
-                page.on("console", lambda msg: console_errors.append({"type": msg.type, "text": msg.text}) if msg.type in ("error", "warning") else None)
-                page.on("pageerror", lambda exc: page_errors.append(str(exc)))
-                page.on("requestfailed", lambda req: failed.append({"url": req.url, "failure": req.failure}))
-                page.goto(url, wait_until="networkidle", timeout=45000)
-                title = page.title()
-                h1_count = page.locator("h1").count()
-                h1 = page.locator("h1").first.text_content(timeout=5000) if h1_count else ""
-                body_sample = page.locator("body").inner_text(timeout=5000)[:500]
-                for name, progress in [("top", 0), ("mid", 0.55), ("final", 1)]:
-                    page.evaluate("""p => {
-                        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-                        document.documentElement.style.scrollBehavior = 'auto';
-                        document.body.style.scrollBehavior = 'auto';
-                        window.scrollTo(0, max * p);
-                        if (window.__COSMIC_SET_PROGRESS__) window.__COSMIC_SET_PROGRESS__(p);
-                        if (window.__APP_SET_PROGRESS__) window.__APP_SET_PROGRESS__(p);
-                    }""", progress)
-                    page.wait_for_timeout(800)
-                    page.screenshot(path=str(OUT / f"{label}-{name}.png"), full_page=False)
-                readback = page.evaluate("() => window.__COSMIC_ZOOM_STATUS__ || window.__APP_STATUS__ || null")
-                summary[label] = {
-                    "title": title,
-                    "h1": h1,
-                    "bodySample": body_sample,
-                    "readback": readback,
-                    "consoleErrors": [e for e in console_errors if e["type"] == "error"],
-                    "consoleWarnings": [e for e in console_errors if e["type"] == "warning"],
-                    "pageErrors": page_errors,
-                    "requestFailed": failed,
+        with browser_target() as target:
+            summary.update(
+                {
+                    "url": receipt_url(target.url),
+                    "serveMode": target.mode,
+                    "root": str(target.root) if target.root else None,
+                    "identity": expected,
+                    "outputs": str(out),
                 }
-                if TITLE_CONTAINS and TITLE_CONTAINS not in title:
-                    raise AssertionError({"title": title, "expected": TITLE_CONTAINS})
-                if H1_CONTAINS and H1_CONTAINS not in h1:
-                    raise AssertionError({"h1": h1, "expected": H1_CONTAINS})
-                if summary[label]["consoleErrors"] or page_errors:
-                    raise AssertionError({"consoleErrors": summary[label]["consoleErrors"], "pageErrors": page_errors})
-                page.close()
-            browser.close()
-        (OUT / "readback.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(json.dumps({"ok": True, "report": str(OUT / "readback.json"), "screenshots": str(OUT), "serveMode": serve_mode}, ensure_ascii=False, indent=2))
-        return 0
-    finally:
-        if server:
-            server.shutdown()
-            server.server_close()
+            )
+            with sync_playwright() as playwright:
+                browser = playwright.chromium.launch(headless=True, args=launch_args())
+                try:
+                    for label, viewport in VIEWPORTS.items():
+                        context = browser.new_context(viewport=viewport, reduced_motion="no-preference")
+                        page = context.new_page()
+                        console_errors: list[dict[str, str]] = []
+                        console_warnings: list[dict[str, str]] = []
+                        page_errors: list[str] = []
+                        failed_requests: list[dict[str, object]] = []
+                        page.on(
+                            "console",
+                            lambda msg: (
+                                console_errors.append({"type": msg.type, "text": msg.text})
+                                if msg.type == "error"
+                                else console_warnings.append({"type": msg.type, "text": msg.text})
+                                if msg.type == "warning"
+                                else None
+                            ),
+                        )
+                        page.on("pageerror", lambda exc: page_errors.append(str(exc)))
+                        page.on(
+                            "requestfailed",
+                            lambda request: failed_requests.append(
+                                {
+                                    "url": request.url,
+                                    "resourceType": request.resource_type,
+                                    "failure": request.failure,
+                                }
+                            ),
+                        )
+                        try:
+                            response = page.goto(target.url, wait_until="domcontentloaded", timeout=45_000)
+                            settle(page)
+                            title = page.title()
+                            h1 = (
+                                page.locator("h1").first.inner_text(timeout=5_000).strip()
+                                if page.locator("h1").count()
+                                else ""
+                            )
+                            body = page.locator("body").inner_text(timeout=5_000)
+                            readback = page.evaluate(
+                                """() => {
+                                  const root = document.documentElement;
+                                  const interactive = document.querySelectorAll(
+                                    'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                                  );
+                                  return {
+                                    viewport: {width: innerWidth, height: innerHeight},
+                                    document: {width: root.scrollWidth, height: root.scrollHeight},
+                                    overflowX: root.scrollWidth > innerWidth,
+                                    h1Count: document.querySelectorAll('h1').length,
+                                    canvasCount: document.querySelectorAll('canvas').length,
+                                    interactiveCount: interactive.length,
+                                    runningAnimations: document.getAnimations().filter(
+                                      a => a.playState === 'running'
+                                    ).length
+                                  };
+                                }"""
+                            )
+                            keyboard = inspect_keyboard(page, int(readback["interactiveCount"]))
+                            viewport_path = out / f"{label}-viewport.png"
+                            full_path = out / f"{label}-full.png"
+                            page.screenshot(path=str(viewport_path), full_page=False, animations="disabled")
+                            page.screenshot(path=str(full_path), full_page=True, animations="disabled")
+                            artifacts = [file_receipt(viewport_path), file_receipt(full_path)]
+                            summary["artifacts"].extend(artifacts)  # type: ignore[union-attr]
+
+                            scoped_issues = identity_issues(title, h1, body, expected)
+                            status = response.status if response else None
+                            if status is None or status >= 400:
+                                scoped_issues.append(f"HTTP status is not successful: {status}")
+                            if readback["overflowX"]:
+                                scoped_issues.append("horizontal overflow detected")
+                            if console_errors:
+                                scoped_issues.append(f"console errors: {len(console_errors)}")
+                            if page_errors:
+                                scoped_issues.append(f"page errors: {len(page_errors)}")
+                            if failed_requests:
+                                scoped_issues.append(f"failed requests: {len(failed_requests)}")
+                            if int(readback["interactiveCount"]) > 0 and not keyboard:
+                                scoped_issues.append("interactive controls exist but keyboard focus was not observed")
+                            if console_warnings:
+                                warnings.append(f"{label}: console warnings: {len(console_warnings)}")
+                            issues.extend(f"{label}: {item}" for item in scoped_issues)
+                            summary["viewports"][label] = {  # type: ignore[index]
+                                "status": status,
+                                "title": title,
+                                "h1": h1,
+                                "readback": readback,
+                                "keyboardSequence": keyboard,
+                                "consoleErrors": console_errors,
+                                "consoleWarnings": console_warnings,
+                                "pageErrors": page_errors,
+                                "requestFailed": failed_requests,
+                                "issues": scoped_issues,
+                                "artifacts": artifacts,
+                            }
+                        finally:
+                            page.close()
+                            context.close()
+
+                    reduced_context = browser.new_context(
+                        viewport=VIEWPORTS["mobile"], reduced_motion="reduce"
+                    )
+                    reduced_page = reduced_context.new_page()
+                    try:
+                        reduced_response = reduced_page.goto(
+                            target.url, wait_until="domcontentloaded", timeout=45_000
+                        )
+                        settle(reduced_page)
+                        reduced = {
+                            "status": reduced_response.status if reduced_response else None,
+                            "preference": reduced_page.evaluate(
+                                "matchMedia('(prefers-reduced-motion: reduce)').matches"
+                            ),
+                            "state": read_status(reduced_page),
+                        }
+                        reduced_path = out / "mobile-reduced-motion.png"
+                        reduced_page.screenshot(
+                            path=str(reduced_path), full_page=False, animations="disabled"
+                        )
+                        reduced["artifact"] = file_receipt(reduced_path)
+                        summary["artifacts"].append(reduced["artifact"])  # type: ignore[union-attr]
+                        if not reduced["preference"]:
+                            issues.append("reduced-motion context did not activate")
+                        running = int(reduced["state"]["runningAnimations"])
+                        if require_reduced_static and running:
+                            issues.append(f"reduced-motion still has {running} running animations")
+                        summary["reducedMotion"] = reduced
+                    finally:
+                        reduced_page.close()
+                        reduced_context.close()
+                finally:
+                    browser.close()
+    except Exception as exc:
+        issues.append(f"{type(exc).__name__}: {exc}")
+
+    summary["verdict"] = "PASS" if not issues else "FAIL"
+    receipt = out / "readback.json"
+    write_json(receipt, summary)
+    print(
+        json.dumps(
+            {
+                "verdict": summary["verdict"],
+                "issues": len(issues),
+                "warnings": len(warnings),
+                "report": str(receipt),
+                "outputs": str(out),
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0 if not issues else 1
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

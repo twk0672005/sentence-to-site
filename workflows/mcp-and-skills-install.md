@@ -1,76 +1,65 @@
-# Skills and MCP Install Guide
+# Skills and MCP Routing — Optional, Source-Checked
 
-## 必裝 Skills
+呢個 kit 本身可獨立使用，冇「必裝 Skills」。先讀 README + 一份 domain
+workflow；只有當前問題真係需要先載入一個 specialist。
 
-建議在 Hermes active profile 安裝或確認以下 skills：
+## Capability routes
 
-```text
-design-taste-frontend
-creative-browser-artifacts
-adversarial-quality-loop
-verification-before-completion
-frontend-technical-architecture-gate
-social-reel-agent-system-recon
-chinese-documentation
-```
+| Need | Optional capability |
+|---|---|
+| Product-specific visual direction | design-taste-frontend |
+| Frontend architecture/preservation | frontend-technical-architecture-gate、behavior-preserving-refactor |
+| Real browser/evidence | creative-browser-artifacts、playwright-interactive、verification-before-completion |
+| High-stakes visible review | adversarial-quality-loop |
+| Image-led reference | social-reel-agent-system-recon、imagegen-frontend-web |
+| Source/API verification | source-driven-development、context7-mcp |
+| Handoff/package | artifact-provenance-and-handoff |
+| Long autonomous run | autonomous-work |
+| Explicit independent lanes | dispatching-parallel-agents |
 
-可選但常用：
+Skill唔存在時用 core workflow直接做，唔自動搜尋／安裝另一個同名 package。
 
-```text
-clawteam
-dispatching-parallel-agents
-imagegen-frontend-web
-brandkit
-native-mcp
-mcporter
-```
+## Official Three.js route
 
-真 Three.js／WebGL scene 先載入 `threejs-cinematic-motion`。遇到窄技術題目，再按需載入 `threejs-fundamentals`、`threejs-geometry`、`threejs-materials`、`threejs-lighting`、`threejs-textures`、`threejs-animation`、`threejs-loaders`、`threejs-shaders`、`threejs-postprocessing` 或 `threejs-interaction`；一次只揀有用部分，唔好全包注入。
+Three.js／WebGL 真係必要時：
 
-CloudAI-X pack 係私人本機技術參考，冇身份／workflow authority；上游repo未有可核實 `LICENSE` 檔，不應公開再分發。API與production做法以官方Three.js r185、現有專案stack同真browser evidence為準。
+1. 先讀 host project package/lock，確認 exact installed version；
+2. 官方 authority：
+   [mrdoob/three.js](https://github.com/mrdoob/three.js) source、manual、API
+   docs、examples；
+3. 可用 threejs-cinematic-motion 做 scene/lifecycle/evidence director；
+4. 當前階段再揀最多 1–3 個：threejs-fundamentals、geometry、materials、
+   lighting、textures、animation、loaders、shaders、postprocessing、
+   interaction；
+5. 唔一次載入全 pack，唔用 popularity 代替 source／license／version audit。
 
-## MCP 角色
+官方 Three.js repo本身係 library，唔包含 Agent Skill SKILL.md。本機 topic
+Skills係根據官方 r185 source/docs原創嘅 guidance，不係官方發行物。
 
-MCP 不是人格，也不是審美來源。MCP 是外部能力入口。
+## Install gate
 
-常用 MCP：
+外部 Skill／plugin／MCP 安裝前記：
 
-- 21st Magic MCP：UI inspiration / component builder / component refiner
-- Logo search MCP：找 SVG / TSX / JSX logo
-- GitHub MCP：repo / issue / PR / code search
-- Filesystem MCP：給外部 agent 指定資料夾操作
-- Figma MCP：從 design source 抽 component / token
+- exact repository/path；
+- immutable commit/version；
+- maintainer、license、scripts/hooks/allowed-tools；
+- network、filesystem、account、credential同付費範圍；
+- overlap/conflict同 rollback path；
+- targeted validator／forward test。
 
-## Hermes native MCP 範例
+Mutable branch、npx latest、uvx latest、curl pipe shell 或 README 聲稱 license
+唔係可重現安裝 contract。External account、sign-in、token、上載、付款同
+machine-wide config仍先獲批准。
 
-```yaml
-mcp_servers:
-  github:
-    command: "npx"
-    args: ["-y", "@modelcontextprotocol/server-github"]
-    env:
-      GITHUB_PERSONAL_ACCESS_TOKEN: "[REDACTED_GITHUB_TOKEN]"
+## MCP boundary
 
-  filesystem:
-    command: "npx"
-    args: ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/projects"]
+MCP係外部 capability，唔係人格、審美或產品 authority。先用當前 agent
+已提供嘅 connector；唔為一個普通網站任務另裝 server。
 
-  time:
-    command: "uvx"
-    args: ["mcp-server-time"]
-```
+- GitHub：repo／issue／PR／CI；
+- Figma／Canva：只有用戶提供相應 design authority 時；
+- Filesystem：只給明確 root；
+- design-research MCP：遵守登入、plan、terms、upload同 privacy gate。
 
-## 21st Magic 使用規則
-
-1. 先用 inspiration / search，不要一開始用 credit-consuming builder。
-2. 抽 pattern，不要貼 incompatible TSX。
-3. 保留現有 stack。
-4. 整合後一定要 screenshot / smoke test。
-5. 21st 是靈感，不是 taste authority。Taste authority 仍是 `design-taste-frontend`。
-
-## Secrets 安全
-
-- 不輸出完整 key。
-- README 裡只放 `[REDACTED]`。
-- MCP server env 只傳必要變數，不傳整個 shell env。
-- 公開包不要包含 `.env`、token、cookie、session。
+Credential永遠唔寫入呢個 repo、prompt、example或 browser receipt。公開
+文件只可用 [REDACTED] placeholder。

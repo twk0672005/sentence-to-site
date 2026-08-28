@@ -1,234 +1,255 @@
 # Afuu Website + Animation Workflow Kit
 
-**Version:** v1.3.3 — Clean Result Core
-**Purpose:** 用最少流程做出可見、可驗證、可交付嘅網站／動畫作品。
+🌐 **語言 / Language:** **繁體中文** · [English](README.en.md)
 
-這是一個 workflow 參考包，不是 starter app、身份檔案或 Hermes 安裝包。
+[![Version](https://img.shields.io/badge/version-v1.4.0-1f6feb.svg)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/license-MIT-d4a72c.svg)](LICENSE)
+[![Workflows](https://img.shields.io/badge/workflows-website%20%2B%20animation-8b5cf6.svg)](#whats-included)
+[![Playwright](https://img.shields.io/badge/browser%20QA-Playwright%201.62.0-2eAD33.svg)](requirements.txt)
+[![Validate Release](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-release.yml/badge.svg)](https://github.com/twk0672005/sentence-to-site/actions/workflows/validate-release.yml)
 
-## 先讀這裡
+> 由一句網站要求，收斂成一個有產品身份、保留真實功能、responsive、
+> 可用 browser evidence 驗證嘅網站成果。
 
-日常任務只需要：
+**v1.4.0 — Truthful Evidence Core** 係一套畀 coding agent 同人類開發者使用嘅
+網站／動畫決策流程，加上一組 fail-closed browser QA utilities。佢專門處理
+AI 生成網站最常見嘅問題：畫面似模板、動畫冇目的、mobile 只係縮細 desktop、
+功能改壞咗但 screenshot 仍然好睇，以及用 build success 冒充產品完成。
 
-```text
-1. README.md
-2. workflows/website-workflow.md 或 workflows/animation-workflow.md
-3. 真正需要時才讀 specialist reference / included skill
-```
+呢個 repository **唔係** component library、starter app、Agent Skill 合集、
+MCP installer 或部署授權。佢提供嘅係一套可以套落現有 stack 嘅工作方法：
+先理解產品，再設計；先保留行為，再重做表面；最後只講證據真正證明到嘅結果。
 
-不要預設讀完整 file architecture、maintenance map、全部 prompts 或全部 included skills。
+---
 
-## 核心 Workflow
+## Why use this
 
-```text
-鎖定可見結果
-→ 看必要現況與 strongest accepted baseline
-→ 只有概念真空白時做一次有界參考研究
-→ 選最細足夠 lane
-→ 做一個真正有用的 visible slice
-→ 在 browser / real media 驗證
-→ 同範圍 repair 或停手交付
-```
+- **去 AI 味**：由產品內容、工具、數據形狀同文化語境建立視覺語言，唔由
+  generic hero、gradient、card grid 開始。
+- **保留原本功能**：Redesign 前先寫 `PRESERVE / EVOLVE / RETIRE / DECISION`
+  preservation map。
+- **按任務比例工作**：小修用 Tiny；一頁用 Normal；公開、高風險或大改版先用
+  Serious／Redesign，唔將每個 CSS 改動變成大型儀式。
+- **動畫有工作先存在**：feedback、orientation、continuity、hierarchy、progress
+  或 emphasis；CSS 做到就唔升級到 WebGL。
+- **Mobile 真正重新構圖**：重新決定 priority、order、density、crop、control
+  model 同 resource budget，唔係 desktop 縮細。
+- **用真證據驗收**：route identity、desktop/mobile、interaction、keyboard、
+  console、overflow、reduced motion 同 temporal evidence 分開驗。
 
-## 兩條 Workflow 點樣配合
+## What's included
 
-網站 Workflow 負責頁面目標、內容層級、視覺方向、主要行動、responsive 結構、browser QA 同交付邊界。動畫 Workflow 只在 movement 真係服務情緒、故事、狀態或注意力時加入，唔會因為「高級」而自動升級。
-
-```text
-Website Workflow
-├─ static：內容、層級、排版與 CTA 已足夠
-├─ ui-motion：按需要進入 Micro 或 Choreographed Motion
-│  ├─ UI Motion：modal、menu、route、state transition
-│  └─ Scroll Story：章節、pin、reveal、視覺敘事
-└─ cinematic-webgl：進入 Cinematic WebGL
-```
-
-網站 Workflow 擁有「做甚麼」同「何時算完成」；動畫 Workflow 擁有「點樣郁」同「點樣證明時間體驗成立」。
-
-## 網站 Workflow：流程架構
-
-完整執行規則見 [`workflows/website-workflow.md`](workflows/website-workflow.md)。
-
-### 整體流向
-
-```text
-Brief / reference / existing site
-→ Result Lock
-→ 必要時做一次有界參考研究 → Original Design Lock
-→ 讀必要現況與 strongest accepted baseline
-→ 選最細足夠 experience lane
-→ 建造一個完整 visible slice
-→ 真瀏覽器驗證
-→ Public／旗艦任務先做一次 bounded review → 最多修一刀
-→ Stop / handoff
-```
-
-### 開工決策 Contract
-
-| 決策 | 可選值／要回答的問題 |
-|---|---|
-| Base route | `new-site` 或 `existing-site` |
-| Experience lane | `static`、`ui-motion` 或 `cinematic-webgl` |
-| Delivery gate | `prototype` 或 `public` |
-| Visual source | `direct-build`、`reference-locked` 或 `shared-canvas` |
-| Five-second message | 訪客第一眼要明白甚麼？ |
-| Primary action | 訪客最重要的下一步係甚麼？ |
-| Protected baseline | 邊部分已經成立，絕對唔可以倒退？ |
-| Required evidence | 今次完成聲稱需要甚麼真實證據？ |
-| Stop condition | 去到邊個可驗證狀態就停手？ |
-
-### 8 個階段
-
-| 階段 | 核心動作 | 可見輸出 |
+| Capability | What it does | Entry |
 |---|---|---|
-| 1. Result Lock | 鎖定目標用戶、五秒訊息、主要行動、route、lane、證據與停手條件 | 一份短而明確的 execution contract |
-| 2. Concept / Design Lock | 只有結構或視覺語言未定義時，最多比較 3 個候選；抽取規則後綜合成原創方向 | Page anatomy、hierarchy、palette、type、spacing、material、motion 的 Do／Avoid |
-| 3. Current-state intake | 新站只讀 brief、素材與輸出要求；現有站只讀入口、框架、styles、主要頁面、motion ownership、部署與最佳 baseline | 最少但足夠的 repo／artifact 理解 |
-| 4. Route selection | 選 `static`、`ui-motion` 或 `cinematic-webgl`；額外技術必須對已鎖定結果有必要性 | 一條最短可行路線 |
-| 5. Visible slice | 先完成訊息、可信度、CTA、responsive 結構，再修層級、構圖、字體、spacing，最後先加 motion／3D | 一段完整、可見、可操作的成品 |
-| 6. Browser evidence | 驗 desktop／mobile、CTA、navigation、form、keyboard、console、failed requests、overflow；motion／WebGL 補時間與狀態證據 | Fresh screenshots、readback、keyframes／MP4 與錯誤狀態 |
-| 7. Bounded review | 只限 public／旗艦要求：做 1 次完整評分，只修最高影響力 1 刀，再重驗受影響證據 | 一次有界 quality pass，唔進入無限 review loop |
-| 8. Stop / handoff | 證據齊就停；未齊則誠實標記 `partial`／`blocked` | Artifact、使用方式、證據、限制與待用戶決定事項 |
+| Website Workflow | 新站、現有站、Redesign；產品 truth、視覺 lock、responsive、review | [website-workflow.md](workflows/website-workflow.md) |
+| Animation Workflow | Micro、UI choreography、scroll story、cinematic WebGL | [animation-workflow.md](workflows/animation-workflow.md) |
+| Evidence Gate | 唯一 evidence coverage、status 同 terminal verdict authority | [evidence-gate.md](workflows/evidence-gate.md) |
+| Browser Verifier | desktop/mobile/narrow、focus、overflow、console、reduced motion | [verify_browser_artifact.py](scripts/verify_browser_artifact.py) |
+| Motion Recorder | WebM、start/mid/settled、contact sheet、optional MP4 | [record_browser_scroll.py](scripts/record_browser_scroll.py) |
+| Skill Routing | design、Three.js、browser、source verification 按需要接入 | [mcp-and-skills-install.md](workflows/mcp-and-skills-install.md) |
+| Release Validator | exact files、links、version、secret scan、deterministic ZIP、SHA-256 | [validate-release.py](.github/scripts/validate-release.py) |
 
-## 動畫 Workflow：流程架構
-
-完整執行規則見 [`workflows/animation-workflow.md`](workflows/animation-workflow.md)。
-
-### Lane hierarchy
+## Core workflow
 
 ```text
-Motion need
-├─ Micro Motion
-│  └─ hover、focus、press、短 feedback
-├─ Choreographed Motion
-│  ├─ UI Motion：modal、menu、route、state transition
-│  └─ Scroll Story：章節、pin、reveal、視覺敘事
-└─ Cinematic WebGL
-   └─ camera、depth、space、particles、orbitable scene／3D world
+result lock
+  -> product truth + protected baseline
+  -> smallest useful lane
+  -> product-specific design lock
+  -> one complete static slice
+  -> responsive recomposition
+  -> motion only when it earns a job
+  -> real browser / temporal evidence
+  -> independent review when scope requires it
+  -> one bounded repair
+  -> PASS / PARTIAL / FAIL / WAITING_FOR_NOVA
 ```
 
-CSS／Motion 做到就唔升級。只有空間、相機或 3D 世界本身承載結果時，先進入 Cinematic WebGL。
+### Work depth
 
-### 完整執行鏈
-
-```text
-Motion purpose
-→ Lane selection
-→ Scene / Technical Lock（Cinematic 才需要）
-→ Motion direction
-→ Beat sheet
-→ Deterministic timeline
-→ Architecture
-→ Scene choreography
-→ Timing polish
-→ Browser evidence
-→ Public 任務：一次 bounded review → 最多修一刀
-→ Stop / handoff
-```
-
-### 10 個階段
-
-| 階段 | 核心動作 | 主要輸出 |
+| Depth | Use when | Minimum route |
 |---|---|---|
-| 1. Purpose / lane | 每段動畫至少服務情緒、故事、狀態、注意力或可信度其中一項，再選 Micro、Choreographed 或 Cinematic | 明確 motion job；冇工作就刪 |
-| 2. Scene / Technical Lock | Cinematic 任務鎖主體、世界、視角、相機自由度、材質、光、情緒、真實度、host stack、Three.js 版本與 fallback | Scene lock + technical lock |
-| 3. Reference / ImageGen | 只在已命名缺口使用 Refero／ImageGen；參考補空白，生成資產唔可以改寫 scene lock | 原創視覺方向或有來源紀錄的 supporting asset |
-| 4. Technical router | 真 Three.js 工作先讀 fundamentals，再按當前問題揀最多 1–3 個專項；唔全包注入 | 最細足夠的技術組合 |
-| 5. Motion ownership | 同一元素同一時間只准一個 owner：CSS、Motion、GSAP 或 Three.js | 無 transform ownership 衝突的 architecture |
-| 6. Pre-production | Choreographed／Cinematic 先寫 motion direction、beat sheet、timeline；定義 trigger、enter、active、exit／settle、mobile 與 reduced-motion alternative | 可執行而非「大概順」的時間設計 |
-| 7. Implementation layers | 依次完成 Architecture → Scene choreography → Timing polish；上層未成立，不用 polish 掩飾 | 穩定 lifecycle、清楚視覺因果、最後先微調 easing／stagger |
-| 8. Cinematic build | 依次做 silhouette／composition → camera／world scale → light／material／texture → main action → interaction → loading／fallback／mobile tier → post-FX | 先成立的 3D 世界，再加氣氛 |
-| 9. Time-based evidence | 驗 start／mid／settled、desktop／mobile、touch、occlusion、resize、loading、fallback、reduced motion、performance 與 cleanup | MP4、contact sheet、semantic keyframes 或 scroll-state evidence |
-| 10. Review / stop | Public 任務只做 1 次正式 review、最多 1 刀同路線修正；重驗後停手，交回用戶判斷 | 可見 artifact、lane、owner、證據、fallback 與已知限制 |
+| Tiny | 一個客觀局部修正 | affected state + narrow verification |
+| Normal | 一頁或一個 visible component | compact contract + wide/narrow render |
+| Serious | 公開、跨頁、reference-led 或 trust-sensitive | baseline + full contract + independent review |
+| Redesign | 現有產品大改版 | Serious + preservation map + baseline comparison |
 
-### Motion ownership
+### Experience lane
 
-| Owner | 適合負責 |
-|---|---|
-| CSS | hover、focus、tiny transition、細微 texture |
-| Motion | component、layout、route 與 state transition |
-| GSAP | scroll timeline、長 sequence、pin／scrub 編排 |
-| Three.js | scene 物件、camera、shader 與 spatial interaction |
+```text
+static
+├─ semantic content, layout, states and responsive composition
+ui-motion
+├─ micro feedback
+├─ choreographed UI
+└─ scroll story
+cinematic-webgl
+└─ camera, depth or explorable space is essential to the result
+```
 
-同一個 transform 唔可以同時由多套工具控制。每段 sequence 都要有 trigger、outcome、states、cleanup、mobile alternative 同 reduced-motion alternative。
+高級感本身唔係使用 Three.js 嘅理由。只有 camera、depth、space 或 spatial
+interaction 真係承載產品結果，先進入 cinematic WebGL。
 
-## 何時加額外流程
+---
 
-只按觸發條件加：
+## Getting started
 
-- **大型 repo 或架構混亂** → `workflows/file-architecture-workflow.md`
-- **公開／賣畀客／高風險視覺作品** → 提高 browser／interaction／handoff 證據；獨立 evaluator 仍只在用戶明確要求時加入
-- **時間性動畫／VFX** → MP4、contact sheet 或 deterministic frames
-- **用戶明確要求小隊／多條獨立研究線** → subagents / ClawTeam
-- **需要配置 Hermes／MCP** → 對應 included skill
-- **普通內部修改** → 不開角色小隊、不做 evidence scoring 儀式
+### 1. Website work
 
-## 最低驗證
+日常網站任務只需要讀兩份文件：
 
-### 靜態／網站
+1. 呢份 `README.md`；
+2. [Website Workflow](workflows/website-workflow.md)。
 
-- 一個主要 viewport 真畫面
-- Title／H1／主要 CTA readback
-- Console／page 無阻斷錯誤
-- 主流程可用
-- 今次涉及 responsive 先補另一 viewport
-- 一句人話質量判斷
+畀 coding agent 嘅最短指令：
 
-### 動畫
+```text
+Use this workflow kit as reference only. Preserve the target project's own
+instructions, product truth, stack and accepted behavior. Choose the smallest
+useful work depth, complete one visible slice, verify the real artifact, and
+report only what fresh evidence supports.
+```
 
-以上再加其中一項：
+### 2. Animation or WebGL work
 
-- 6–12 秒 MP4；或
-- contact sheet / semantic keyframes；或
-- mid-transition / scroll-state evidence。
+只有當 motion 係結果一部分，先再讀
+[Animation Workflow](workflows/animation-workflow.md)。Three.js 任務必須先讀
+host project package／lock，跟返 exact version 嘅官方
+[mrdoob/three.js](https://github.com/mrdoob/three.js) source、manual、API docs 同
+examples。
 
-技術通過不等於畫面好。最終判斷以可見成品為準。
+### 3. Working with `design-taste-frontend`
 
-## 工具
+如果 agent 環境已經有 `design-taste-frontend`：
 
-已有 dev server：
+- 普通「建立／修改／重做網站」要求可以由該 Skill 自動接管產品專屬 art
+  direction 同視覺判斷；
+- 呢個 kit 負責 scope、preservation、implementation sequence、evidence 同
+  terminal verdict；
+- animation workflow 只喺 motion 真係有工作時條件式加入；
+- Tiny 修正唔會被迫執行完整 Serious／Redesign 流程。
+
+本 repository 自身仍然係 reference kit，唔會靜默安裝 Skill、改寫其他專案
+instructions 或自動 deploy。
+
+---
+
+## Browser QA
+
+Browser utilities 使用 pinned `playwright==1.62.0`。Chromium 需要另外安裝；
+FFmpeg 只喺明確要求 MP4 時需要。
+
+### POSIX
 
 ```bash
-ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/verify_browser_artifact.py
-ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/record_browser_scroll.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+playwright install chromium
+
+ARTIFACT_ROOT=/path/to/dist \
+TITLE_CONTAINS="Product" \
+python3 scripts/verify_browser_artifact.py
 ```
 
-靜態 artifact：
+### Windows PowerShell
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m playwright install chromium
+
+$env:ARTIFACT_ROOT = "C:\path\to\dist"
+$env:TITLE_CONTAINS = "Product"
+.\.venv\Scripts\python.exe -B scripts\verify_browser_artifact.py
+```
+
+至少提供一個 identity marker：`TITLE_CONTAINS`、`H1_CONTAINS` 或
+`BODY_CONTAINS`。Static root 含 `.env`、private key、`.git` 或 symlink 會
+fail；external URL 預設唔准，避免誤驗舊 server 或錯誤網站。
+
+### Motion evidence
 
 ```bash
-ARTIFACT_ROOT=/path/to/site python3 scripts/verify_browser_artifact.py
-ARTIFACT_ROOT=/path/to/site python3 scripts/record_browser_scroll.py
+ARTIFACT_ROOT=/path/to/dist \
+H1_CONTAINS="Product" \
+MOTION_DURATION_SECONDS=8 \
+python3 scripts/record_browser_scroll.py
 ```
 
-## Optional skill index
+Recorder 會產生 WebM、三個相異嘅 start/mid/settled states 同 contact sheet。
+要將 MP4 變成 hard gate，另設 `REQUIRE_MP4=1` 並提供 `ffmpeg`／`ffprobe`。
 
-`included-skills/` 只保存**按需 Skill 路由索引**，不再內嵌完整 Skill 副本。
+---
 
-正常網站任務最多先讀一個主要 design skill；只有遇到實際問題先加 architecture、reel、MCP、image generation、multi-agent 或 handoff skill。
+## Evidence model
 
-不要一次載入全部 skills。不要將 skills file count 當成套件品質。
+[evidence-gate.md](workflows/evidence-gate.md) 係唯一 evidence type、coverage、
+status 同 terminal verdict authority。
 
-## 生產力規則
+| Evidence | Can prove | Cannot prove alone |
+|---|---|---|
+| Build exit 0 | source/build command完成 | 真實 runtime、畫面或 journey |
+| HTTP 200 | endpoint 有回應 | 回應緊正確網站 |
+| Screenshot | 一個 viewport/state 嘅 pixels | interaction、motion、accessibility |
+| Video/WebM | 錄製期間嘅時間變化 | cleanup、offscreen lifecycle、全部 states |
+| Agent report | agent 聲稱完成 | implementation 或產品 PASS |
 
-- 一個可見 artifact 同一時間只准一個 writer。
-- 一個線性修改唔需要四個角色。
-- 一次 iteration 必須有 visible/testable delta。
-- scheduling、報告、checklist 唔等於進度。
-- 不為了「完整」而建立新文件、Prompt、Gate 或版本。
-- 公開或高價值唔等於自動多 agent、多 evaluator 或重做 design system。
-- strongest approved baseline 永遠優先於 technically cleaner but visibly weaker candidate。
+Raw screenshot、video、HTML、JSON 同 trace 應該落檔；對話只回傳 path、hash、
+viewport/state、關鍵 metrics 同 verdict，避免大型 evidence 拖垮 session。
 
-## Optional / archive-style references
+---
 
-以下保留作按需查閱，不進入正常 reading path：
+## Repository validation
 
-- `docs/workflow-kit-maintenance-map.md`
-- `WORKFLOW_COMPLETENESS_AUDIT.md`
-- `PACKAGING_AUDIT.md`
-- `prompts/`
-- `checklists/`
-- `included-skills/`
-- 深度 architecture / MCP / handoff 文件
+```bash
+python3 .github/scripts/validate-release.py
+python3 -m unittest discover -s tests
+python3 .github/scripts/run-browser-smoke.py
+```
 
-## 安全
+Validation 包括：
 
-不包含 API key、token、memory、cron、config、service 或身份檔。任何 credential 只可顯示為 `[REDACTED]`。
+- exact repository／distribution allowlist；
+- strict UTF-8、relative links 同 version parity；
+- secret、credential、private path、sensitive filename 同 symlink checks；
+- Python compile；
+- positive browser verifier／motion recorder smoke；
+- wrong-site marker negative test；
+- deterministic ZIP、SHA-256 同 ZIP byte parity。
+
+## Repository map
+
+```text
+kit-manifest.json       version + exact distribution authority
+workflows/              website, animation, evidence and optional references
+scripts/                fail-closed browser QA utilities
+checklists/             proportional intake, preflight and delivery reminders
+included-skills/        optional capability index + source provenance only
+prompts/                visual-reference extraction prompt
+docs/                   setup, usage, troubleshooting, maintenance and history
+tests/                  deterministic unit tests + browser fixture
+.github/                CI, release validation, issue and PR templates
+```
+
+## Source and safety boundaries
+
+- Target project 最近嘅 instructions、產品 truth 同 accepted baseline 永遠優先。
+- 唔包含 credential、identity、memory、cron、service 或 client material。
+- 唔自動 install、login、upload、pay、push、deploy 或 publish。
+- Reference／generated asset 要有 provenance 同 rights。
+- Optional Skill、plugin 或 MCP 要先核 source、immutable version、license、
+  scripts/hooks、permissions 同 rollback。
+- `kit-manifest.json` 係 version、distribution file list 同 repo-only contract 嘅
+  machine authority。
+
+## Contributing and support
+
+- 使用問題或 bug：開 [GitHub issue](https://github.com/twk0672005/sentence-to-site/issues)。
+- 改動前先讀 [CONTRIBUTING.md](CONTRIBUTING.md)。
+- Security 問題跟 [SECURITY.md](SECURITY.md) 嘅 private reporting route。
+- Release history 見 [CHANGELOG.md](CHANGELOG.md)。
+
+## License
+
+呢個 project 使用 [MIT License](LICENSE)。
