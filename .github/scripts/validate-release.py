@@ -273,11 +273,14 @@ def validate(output_dir: Path | None = None) -> tuple[list[str], dict[str, objec
             issues.extend(markdown_links(relative, text))
 
     readme = texts.get("README.md", "")
+    readme_en = texts.get("README.en.md", "")
     baseline = texts.get("CURRENT_BASELINE.md", "")
     skills = read_json("included-skills/SKILLS_MANIFEST.json", issues)
     three_lock = read_json("included-skills/THREEJS_SOURCE_LOCK.json", issues)
     if "v1.4.0" not in readme:
         issues.append("README.md does not declare v1.4.0")
+    if "v1.4.0" not in readme_en:
+        issues.append("README.en.md does not declare v1.4.0")
     if "v1.4.0" not in baseline:
         issues.append("CURRENT_BASELINE.md does not declare v1.4.0")
     if skills.get("version") != "1.4.0-truthful-evidence-core":

@@ -63,6 +63,19 @@ class ReleaseValidatorTests(unittest.TestCase):
             self.assertNotEqual(completed.returncode, 0)
             self.assertIn("version must be 1.4.0", completed.stdout)
 
+    def test_english_readme_version_drift_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            candidate = Path(raw) / "kit"
+            copy_repository(candidate)
+            readme = candidate / "README.en.md"
+            readme.write_text(
+                readme.read_text(encoding="utf-8").replace("v1.4.0", "v9.9.9"),
+                encoding="utf-8",
+            )
+            completed = run_validator(candidate)
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertIn("README.en.md does not declare v1.4.0", completed.stdout)
+
     def test_broken_relative_link_fails(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
             candidate = Path(raw) / "kit"

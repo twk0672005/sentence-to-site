@@ -12,10 +12,15 @@
       "workflows/animation-workflow.md"
     ]
   },
+  "alternateLanguages": {
+    "zh-HK": "README.md",
+    "en": "README.en.md"
+  },
   "distributionFiles": [
     "CHANGELOG.md",
     "CURRENT_BASELINE.md",
     "LICENSE",
+    "README.en.md",
     "README.md",
     "checklists/animation-preflight.md",
     "checklists/delivery-checklist.md",

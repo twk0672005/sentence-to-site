@@ -1,5 +1,7 @@
 # Afuu Website + Animation Workflow Kit
 
+🌐 **語言 / Language:** **繁體中文** · [English](README.en.md)
+
 [![Version](https://img.shields.io/badge/version-v1.4.0-1f6feb.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-d4a72c.svg)](LICENSE)
 [![Workflows](https://img.shields.io/badge/workflows-website%20%2B%20animation-8b5cf6.svg)](#whats-included)
