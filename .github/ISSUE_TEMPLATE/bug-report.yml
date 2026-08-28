@@ -8,13 +8,14 @@ body:
     attributes:
       label: Component
       options:
-        - cinematic-web-motion router
-        - visual-story-direction
-        - website-motion-intake
-        - motion-choreography
-        - browser-evidence
-        - delivery-handoff
-        - package validator or template
+        - website workflow
+        - animation / Three.js workflow
+        - evidence gate or high-end review
+        - browser verifier
+        - motion recorder
+        - release validator / deterministic package
+        - optional skill or source index
+        - documentation / checklist / handoff
     validations:
       required: true
   - type: textarea

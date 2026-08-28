@@ -1,141 +1,201 @@
-# Animation Workflow — Directed Motion + Locked Three.js Router
+# Animation Workflow — Directed Motion + Official Three.js
 
 ## 目標
 
-先決定動畫服務甚麼結果，再選最細足夠lane與技術。Three.js係WebGL技術主力；導演判斷、內容層級、accessibility、browser evidence及停手條件仍由workflow負責。
+先講清動畫服務甚麼結果，再揀最細足夠 lane／technology。Library 數量、
+shader、particles、bloom、3D 同長 timeline 都唔係品質分數。
 
-每段動畫至少要做到一項：建立情緒、推進故事、表示狀態、引導注意力或增加可信度。做唔到就刪。
+每段 motion 至少要服務一項：feedback、orientation、continuity、causality、
+hierarchy、progress、story 或 emphasis。冇工作就刪。
 
-## 1. 揀lane
+## 1. Lane
 
-- **Micro Motion**：hover、focus、press、短feedback。
-- **Choreographed Motion**：有開始、發展和結束的編排；再標明子類：
-  - `UI Motion`：modal、menu、route、state transition；
-  - `Scroll Story`：章節、pin、reveal、視覺敘事。
-- **Cinematic WebGL**：相機、深度、空間、粒子、可環繞場景或3D世界本身係主角。
+- Micro Motion：hover、focus、press、短 feedback。維持 Tiny／Normal，
+  只需比例化 changed-state、temporal 同 reduced check。
+- Choreographed Motion：
+  - UI Motion：modal、menu、route、layout/state transition；
+  - Scroll Story：章節、pin、reveal、scroll-linked敘事。
+- Cinematic WebGL：camera、depth、space、shader、可環繞 object 或 3D world
+  本身係結果必要部分。
 
-高級感不等於WebGL。CSS／Motion做到就唔升級；只有空間或相機係結果必要部分先用Three.js。
+Choreographed／Scroll Story／Cinematic 使用完整 Motion evidence profile。
+高級感唔等於 WebGL；CSS／WAAPI／Motion 做到就唔升級。
 
-## 2. 場景輸入與鎖定
+## 2. Motion inventory
 
-`Cinematic WebGL`可由三種輸入開始，參考圖並非必需：
+每段 sequence 記：
 
-```text
-Scene input: verbal-brief | image-reference | mixed
-Scene lock: <主體／世界、需要展示的視角、相機自由度、材質／光／情緒、必保留／避免、真實度、生成資產許可>
-Technical lock: <host stack、three版本、選中skills、ThreeUI元件、source commits、fallback>
-```
+    Element/state:
+    Job:
+    Trigger:
+    Start / representative middle / settled or exit:
+    Focal point:
+    Owner and exact property:
+    Interruption / rapid repeat / route change:
+    Mobile alternative:
+    Reduced-motion alternative:
+    Cleanup:
+    Required proof:
 
-- **口頭描述**：按已鎖定世界觀、構圖、材質、光線和interaction評估；唔聲稱還原一張不存在嘅圖。
-- **參考圖片**：拆解輪廓、尺度、前中後景、遮擋、材質、光向、鏡頭和未知側背面；未知處明示為合理建模假設。
-- **混合**：圖片鎖可見事實，文字補充用途、情緒、看不到的空間和互動。
+Delete job 只係「唔好咁靜」「睇落高級」嘅 item。
 
-如需要完整可環繞展示，必須建立真3D geometry、camera orbit及側背面；旋轉一張卡、2.5D parallax或只在原視角成立的假景唔算。
+## 3. Scene / Technical Lock
 
-## 3. 概念參考與ImageGen
+Cinematic WebGL 先記：
 
-視覺、介面或journey方向未具體，或用戶要求旗艦質感時，可讀 `refero-inspiration.md`。Product UI screens／flows只補UI結構、狀態和interaction；Refero Styles只補排版、palette、spacing、material和motion語言。最多比較三個候選，指定一個primary source，再鎖一套原創方向。參考圖或已接受baseline永遠優先；Refero不可改寫scene silhouette、subject、camera intent或已命名材質。
+    Scene input: verbal | image | mixed
+    Subject/world:
+    Required viewpoints:
+    Camera freedom, bounds and reset:
+    Silhouette/composition:
+    Material/light/mood:
+    Main spatial interaction:
+    Host stack and installed Three.js version:
+    Mobile quality tier:
+    Loading/fallback/reduced states:
+    Generated-asset permission and rights:
+    Resource/performance budget:
 
-不可自動scrape／crawl Refero public pages；agent自動研究只走獲批准的官方MCP／API。未批准登入、安裝、付款或外部上載時，使用用戶提供的候選或human-led shortlist。
+圖片只鎖可見事實；未知側背面要明示建模假設。聲稱 full orbit／完整 object，
+就要真 geometry 同可信 side/back；billboard、旋轉卡、2.5D parallax 或只喺
+原角度成立嘅假景唔算。
 
-ImageGen只填已命名的缺口，例如environment plate、天空、貼圖基底、decal、mask、illustration或UI supporting visual。每個生成資產要記錄用途、尺寸、prompt、後處理、來源及權利狀態。生成結果唔可以靜默改寫scene lock；面向鏡頭的單張生成圖亦唔可以冒充完整3D。
+## 4. Technology and official source
 
-## 4. Three.js技術Router
+Cost ladder：
 
-真Three.js工作先讀 `threejs-fundamentals`，再按當前階段加最多1–3個專項；下一階段只有出現新需要先加。禁止一次載入全部skills。
-
-| 實際需要 | 選擇 |
+| Need | Prefer |
 |---|---|
-| scene、camera、renderer、resize、render loop | `threejs-fundamentals` |
-| silhouette、mesh、BufferGeometry、instancing | `threejs-geometry` |
-| PBR、transparency、surface response | `threejs-materials` |
-| lights、shadows、HDR environment | `threejs-lighting` |
-| image maps、UV、color space、compression | `threejs-textures` |
-| keyframes、mixer、skeletal／morph animation | `threejs-animation` |
-| GLTF、DRACO、KTX2、external assets | `threejs-loaders` |
-| GLSL／自訂視覺計算 | `threejs-shaders` |
-| bloom、DOF、grading | `threejs-postprocessing`，只可在構圖／光材質已成立後 |
-| raycast、pointer、orbit、touch controls | `threejs-interaction` |
-| FPS、draw calls、memory、mobile tier | browser profiling／evidence gate；main冇獨立performance skill |
-| WebGPU／TSL／R3F-specific stack | CloudAI-X main冇專項；只有任務明確需要時先查官方stack文件，唔借用open PR skill |
+| focus／hover／pressed／短 reveal | CSS |
+| 可 reverse／cancel／seek DOM transition | Web Animations API |
+| React layout／gesture／state | Motion（如 project 已使用或成本合理） |
+| pinned／scrubbed complex DOM story | GSAP + scoped cleanup |
+| camera／geometry／material／shader／spatial input | Three.js |
+| locked cinematic pixels | native video/image sequence |
 
-### ThreeUI
+Three.js authority：
 
-ThreeUI係可選元件來源，唔係圖片／文字自動變3D世界嘅引擎。只有元件直接符合scene或interface lock時先用：先search，記錄component ID、`sourceCommit`、registry SHA及檔案hash，再以expected commit安裝。冇適合元件就直接建，唔為咗用元件庫而改concept。
+1. 先讀 host project package/lock，確認 exact installed version。
+2. API authority 係對應版本嘅官方
+   [mrdoob/three.js](https://github.com/mrdoob/three.js) source、manual、
+   API docs 同 examples。
+3. Audited baseline 係 r185 tag
+   cb3b077ee63818a8cc1ab273f08704d89b8ac492；2026-08-28 npm current
+   observed 為 three 0.185.1。呢個紀錄唔係強制升級。
+4. 如本機有 threejs-cinematic-motion，先用佢做 scene/lifecycle/evidence
+   director；再按當前問題讀最多 1–3 個 official-source topic skills：
+   threejs-fundamentals、geometry、materials、lighting、textures、animation、
+   loaders、shaders、postprocessing、interaction。
+5. 唔一次載入全部。官方 source 同 executable evidence 高於任何 Skill。
 
-### 來源鎖
+Machine-readable provenance 見
+[THREEJS_SOURCE_LOCK.json](../included-skills/THREEJS_SOURCE_LOCK.json)。
 
-- Stable technical set：`CloudAI-X/threejs-skills` main commit `b1c623076c661fc9b03dac19292e825a5d106823`。
-- Stable API target：official Three.js `r185`／`three@0.185.0`；官方docs和實跑證據高於skill文字。
-- Upstream目前冇repo LICENSE檔及GitHub license identification；公開kit只記索引和commit，唔複製其正文。
-- PR #13、#14、#15全部不採用；workflow只用已鎖定main，亦唔私下安裝PR新增skill。
-- main內兩個已核實無效例子——`ContactShadows.js`及`three/addons/nodes/Nodes.js`——禁止使用；按official r185 docs或可執行證據重建。
-- 全部來源禁止自動跟branch更新。轉commit前要重新審核、備份、更新lock及驗證。
+## 5. Ownership
 
-詳細機器可讀資料見 `included-skills/THREEJS_SOURCE_LOCK.json`。
+同一 element/property 同一時間只准一個 owner：
 
-## 5. Motion ownership
-
-同一元素同一時間只准一個motion owner：
-
-- CSS：simple hover／focus／tiny transition；
+- CSS：focus、hover、tiny feedback；
 - Motion：component／layout transition；
-- GSAP：scroll timeline、長sequence、複雜編排；
-- Three.js：scene內物件、camera、shader及spatial interaction。
+- GSAP：DOM scroll timeline／long sequence；
+- Three.js：scene object、camera、material、shader、spatial interaction。
 
-唔准CSS、Motion、GSAP同時搶同一transform。每段sequence要有trigger、outcome、states、cleanup、mobile alternative及reduced-motion alternative。
+唔准多套系統搶 transform、opacity、scroll position、camera 或 timeline。
+Owner 同時負責 setup、refresh、interrupt、route/unmount cleanup。
 
-## 6. Choreographed／Cinematic 準備與實作層
+## 6. Choreography
 
-Micro Motion 只需短行為定義；Choreographed 或 Cinematic 開工前先鎖三樣：
+Choreographed／Cinematic 開工前鎖：
 
-1. **Motion direction**：觀眾要感受到甚麼變化，動畫服務哪個內容結果；
-2. **Beat sheet**：每個節點的 trigger、enter、active、exit／settle、mobile alternative、reduced-motion alternative；
-3. **Timeline**：用 progress、時間或事件定義每個 beat 的 start／mid／end，避免只靠主觀「大概順」。
+1. Motion direction：觀眾要理解／感受到嘅改變；
+2. Beat sheet：trigger、enter、active、settle/exit、mobile、reduced；
+3. Timeline：每個 beat 對 time、progress 或 event 嘅 start/mid/end。
 
-實作分三層，按次序向下：
+診斷次序：
 
-1. **Architecture**：motion owner、state／progress source、listener／render loop、cleanup；
-2. **Scene choreography**：文字、主體、相機／構圖和視覺因果的先後；
-3. **Timing polish**：duration、easing、stagger、settle與微調。
+    ownership/lifecycle -> choreography/causality -> timing polish
 
-上層未成立，不可用下層 polish 掩飾。每層只修當前最高影響力問題；唔為完整而循環重做三層。
+冇該層就 skip，唔為「完整」創造三層工作。
 
-## 7. Cinematic建造次序
+## 7. Cinematic build order
 
-1. silhouette／構圖／主角；
-2. camera、world scale及環繞邊界；
-3. lighting／materials／textures；
-4. 因果主動作；
-5. interaction、touch及reset；
-6. loading、fallback、mobile quality tier；
-7. 最後先post-FX。
+1. HTML/content、loading 同 static fallback；
+2. silhouette、composition、subject scale；
+3. camera/world scale、orbit bounds、reset；
+4. geometry completeness；
+5. lighting/material/texture causality；
+6. primary action、pointer/touch；
+7. mobile tier、reduced motion、fallback；
+8. post-processing 最後。
 
-先令世界成立，再加氣氛。粒子、bloom、shader或3D唔係高級感保證。
+先令世界成立，再加氣氛。ImageGen 只填 named gap；記用途、尺寸、prompt、
+後處理、provenance、rights，唔可以改寫 scene lock 或冒充 geometry。
 
-## 8. 真browser驗證
+## 8. Lifecycle、performance、energy
 
-Animation claim需要時間證據，唔係單張截圖：
+- Continuous motion 用一個 delta/time source，唔用 high-frequency framework state。
+- Cap pixel ratio／drawing buffer；lazy-load heavy scene並預留 layout。
+- Scene idle 時 render on demand；hidden tab／offscreen／reduced 狀態停止 work。
+- Dispose controls、listeners、observers、RAF、mixer、geometry、materials、
+  textures、render targets、decoder/cache ownership。
+- Route mount/unmount/return 做 10 cycles（complex runtime），resource count
+  唔可以累積。
+- Heavy scene 記 delivered JS/model/texture bytes、draw calls、renderer.info、
+  long tasks／interaction latency 同 named mobile device/tier。
 
-- start／mid／settled或完整orbit viewpoints；
-- desktop／mobile及touch；
-- 側背面、occlusion、clipping、near／far、resize；
-- loading、fallback、WebGL errors、failed requests；
-- reduced motion及弱裝置tier；
-- FPS、draw calls、memory或同等performance readback；
-- cleanup後冇重複listener、timeline或animation loop。
+## 9. Reduced motion
 
-## 9. 高級公開級Review：只做一次
+唔係將 duration 變 0.01s：
 
-要求「無可挑剔／公開發布」時，用 `high-end-public-review.md`完整100分制度一次。3D overlay要特別檢查360°完整度、幾何輪廓、材質與光、orbit控制、touch、reset、loading、fallback及穩定性。
+- 移除 parallax、large translate、zoom、spin、camera flight、ambient loop；
+- 保留 state、hierarchy、progress、feedback、focus、result 同 action；
+- canvas/video 提供 poster／static scene；
+- 驗真 OS/browser preference。
 
-流程：最強初稿 → fresh evidence → 一次評分 → 只修最高影響力一刀 → 重驗 → 停手並問用戶效果。唔review自己嘅review；未達標就按低分項提供最多四個選項，收到用戶方向先開下一輪。
+自動 movement 超過五秒且同其他內容同時出現，按適用 accessibility contract
+提供 pause/stop/hide；唔超過安全 flash rate。
 
-`public-ready production candidate`不等於已獲授權部署、公開、付款或對外發布。
+## 10. Temporal evidence
 
-## 10. 停手與交付
+### Micro
 
-- Micro／Choreographed prototype：route要求的真時間證據齊，或誠實標記`partial`／`blocked`後停手；
-- Public：一次正式Review、最多一刀同路線修正及受影響證據重驗後停手，交回用戶判斷；
-- 交付先展示可見artifact，再講lane、motion owner、browser evidence、mobile／reduced-motion狀態及已知限制；
-- 唔因為agent自己仍可想到效果，就新增timeline、post-FX、WebGL、evaluator或下一輪。
+- before／active／after changed-state；
+- keyboard/focus/touch state（如適用）；
+- reduced alternative；
+- console/page errors。
+
+### Choreographed / Scroll
+
+- start／mid／settled，同 reverse/cancel；
+- real scroll 同 rendered progress 同步；
+- resize、fast scroll、anchor、route re-entry；
+- 6–12 秒 WebM/MP4 或等值真時間 record + contact sheet。
+
+### Cinematic WebGL
+
+- start／mid／settled；
+- front／side／back／代表 high-low view（full-orbit claim）；
+- occlusion、clipping、near/far、reset、pointer/touch；
+- loading/error、fallback、reduced、mobile tier；
+- renderer/resource before-after cycles 同 performance trace。
+
+Temporal evidence 要證明 start/mid/end visibly distinct、唔黑畫面、唔停喺第一
+frame、唔由 fake progress hook 代替 real scroll。Raw media 落檔；root
+conversation只開 contact sheet加一張 focal frame。
+
+## 11. Review / verdict
+
+Public／flagship complex motion 用一個 fresh independent evaluation batch，
+只修最高影響 root cause，一次 recapture後停。更多主觀迭代需要新 user
+direction 或新 objective failure。
+
+Terminal vocabulary：
+
+    PASS / PARTIAL / FAIL / WAITING_FOR_NOVA
+
+Runtime exception、failed required asset、unexpected context loss係 issues，
+映射 PARTIAL／FAIL；blocked 唔係 runtime defect 嘅代名詞。
+
+PASS 需要：motion job、single owner、static/reduced、interruption、mobile、
+lifecycle、temporal evidence、performance/resource 同 scene/viewpoint claim
+全部成立。Build pass、animation-name 或 still screenshot 唔足夠。

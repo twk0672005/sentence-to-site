@@ -1,100 +1,98 @@
 # Tooling Setup
 
-這包可以放入任何網站 / 動畫專案旁邊使用。以下是常用工具。
+Workflow文件本身零dependency。以下只係optional browser evidence utilities。
 
-## Python browser verification
+## Supported baseline
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-playwright install chromium
-```
+- Python 3.11／3.12；
+- Playwright 1.62.0（requirements pin）；
+- matching Chromium installed by Playwright；
+- FFmpeg／ffprobe optional，只在REQUIRE_MP4=1時需要。
 
-如果不想用 venv：
+## POSIX
 
-```bash
-pip install playwright
-playwright install chromium
-```
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python -m pip install -r requirements.txt
+    python -m playwright install chromium
 
-## FFmpeg
+## Windows PowerShell
 
-錄影轉 MP4 需要 FFmpeg。
+    py -m venv .venv
+    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+    .\.venv\Scripts\python.exe -m playwright install chromium
 
-Ubuntu / Debian：
+## Static build／staging
 
-```bash
-sudo apt-get update
-sudo apt-get install -y ffmpeg
-```
+ARTIFACT_ROOT必須係sanitized build output，不係有.git／.env／private key嘅
+source root。ARTIFACT_ENTRY預設index.html；ARTIFACT_PORT預設0，由OS分配。
 
-macOS：
+POSIX：
 
-```bash
-brew install ffmpeg
-```
+    ARTIFACT_ROOT=/path/to/dist \
+    TITLE_CONTAINS="Product" \
+    python scripts/verify_browser_artifact.py
 
-## 驗證 static artifact
+PowerShell：
 
-```bash
-ARTIFACT_ROOT=/path/to/site ARTIFACT_PORT=4173 python3 scripts/verify_browser_artifact.py
-```
+    $env:ARTIFACT_ROOT = "C:\path\to\dist"
+    $env:TITLE_CONTAINS = "Product"
+    .\.venv\Scripts\python.exe -B scripts\verify_browser_artifact.py
 
-## 驗證已啟動的 dev server
+Identity marker至少一個：
 
-如果 Vite / Next / Astro 已經在跑：
+- TITLE_CONTAINS
+- H1_CONTAINS
+- BODY_CONTAINS
 
-```bash
-ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/verify_browser_artifact.py
-```
+## Existing dev server
 
-## 錄 scroll video
+預設只准loopback：
 
-```bash
-ARTIFACT_URL=http://127.0.0.1:5173 python3 scripts/record_browser_scroll.py
-```
+    ARTIFACT_URL=http://127.0.0.1:5173/ \
+    H1_CONTAINS="Product" \
+    python scripts/verify_browser_artifact.py
 
-或者 static serve：
+外部URL只有喺network/browser scope已獲授權時先設ALLOW_REMOTE_URL=1。
 
-```bash
-ARTIFACT_ROOT=/path/to/site ARTIFACT_PORT=4174 python3 scripts/record_browser_scroll.py
-```
+## Motion record
 
-## Script syntax check
+    ARTIFACT_ROOT=/path/to/dist \
+    H1_CONTAINS="Product" \
+    MOTION_DURATION_SECONDS=8 \
+    python scripts/record_browser_scroll.py
 
-```bash
-python3 -m py_compile scripts/verify_browser_artifact.py scripts/record_browser_scroll.py
-```
+Default輸出：WebM、start/mid/settled PNG、contact-sheet JPG、
+reduced-motion PNG、JSON receipt。FFmpeg存在時另產MP4；硬性需要MP4時設
+REQUIRE_MP4=1。
 
-## 常見問題
+PROGRESS_ADAPTER預設none，代表真scroll。只有artifact明確暴露diagnostic
+hook時先用app／cosmic；hook evidence唔代替real scroll wiring。
 
-### Playwright 找不到 Chromium
+## Optional renderer flags
 
-```bash
-playwright install chromium
-```
+Chromium sandbox預設保留。Headless WebGL因已知環境限制需要SwiftShader時，
+先在隔離、可信artifact設ENABLE_SWIFTSHADER=1，並喺receipt標示；呢個唔係
+production GPU proof。
 
-### WebGL 在 VPS / headless 黑畫面
+## Maintainer validation
 
-腳本已包含：
+    python .github/scripts/validate-release.py
+    python -m unittest discover -s tests
+    python .github/scripts/run-browser-smoke.py
 
-```text
---enable-webgl
---ignore-gpu-blocklist
---enable-unsafe-swiftshader
-```
+Release package：
 
-如果仍失敗，要把 verdict 降到 partial / blocked，不要假裝 WebGL 已驗證。
+    python .github/scripts/validate-release.py --output-dir distribution
 
-### Vite / Next 專案不能用 static serve
+distribution係generated／ignored。Validator會建deterministic ZIP、
+SHA256SUMS、package hash並讀返每個entry做byte parity。
 
-不要直接用 Python static server serve source repo。先跑：
+## Failure interpretation
 
-```bash
-npm run dev
-# or
-npm run build && npm run preview
-```
-
-再用 `ARTIFACT_URL` 指向正在跑的網址。
+- Wrong／missing identity：FAIL，可能驗錯server／route；
+- Explicit static port occupied：FAIL，唔重用；
+- sensitive/static source root：FAIL，改用sanitized build；
+- Playwright/Chromium unavailable：environment blocker；
+- runtime exception／failed asset／overflow：issues -> PARTIAL／FAIL；
+- FFmpeg unavailable：仍可交WebM/contact sheet；REQUIRE_MP4=1先FAIL。

@@ -1,30 +1,41 @@
 # Optional Skill Index
 
-v1.3.3 不再內嵌完整 Hermes Skill 副本。
+v1.4.0 保持 index-only，唔內嵌／安裝任何 Skill body。
 
-原因：完整副本容易過期、重複載入，亦曾將交易／系統個案帶入網站動畫套件。日常 workflow 應直接使用本包核心文件；只有遇到實際需求時，先從當前 agent／Hermes 環境載入對應 Skill。
+原因：完整副本會過期、重複載入、失去 source/license/version authority，
+亦容易將另一個 project runbook 帶入網站工作。核心 workflow 單獨可用；
+當前 agent 環境真有相應能力時先按需載入。
 
-## 建議路由
+## 路由
 
-- 網站設計：`design-taste-frontend`
-- Browser artifact／截圖／影片：`creative-browser-artifacts`
-- 可見品質批判：`adversarial-quality-loop`
-- Three.js／WebGL cinematic scene（先由 animation workflow 條件式載入）：`threejs-cinematic-motion`
-- Three.js 窄技術題目（再按需要揀 1–3 個）：`threejs-fundamentals`、`threejs-geometry`、`threejs-materials`、`threejs-lighting`、`threejs-textures`、`threejs-animation`、`threejs-loaders`、`threejs-shaders`、`threejs-postprocessing`、`threejs-interaction`
-- 完成前驗證：`verification-before-completion`
-- 前端架構：`frontend-technical-architecture-gate`
-- Reel／IG／TikTok reference：`social-reel-agent-system-recon`
-- 現有網站 redesign：`redesign-existing-projects`
-- 圖像生成：`imagegen-frontend-web`
-- Hermes／MCP：`hermes-agent`、`native-mcp`
-- 用戶明確要求多代理：`dispatching-parallel-agents` 或 `clawteam`
+- 網站 art direction：design-taste-frontend
+- Frontend architecture／preservation：frontend-technical-architecture-gate、
+  behavior-preserving-refactor
+- Browser／驗證：creative-browser-artifacts、playwright-interactive、
+  verification-before-completion
+- High-stakes visible review：adversarial-quality-loop
+- Reference／ImageGen：social-reel-agent-system-recon、imagegen-frontend-web
+- Official source lookup：source-driven-development、context7-mcp
+- Handoff：artifact-provenance-and-handoff
+- Long run／explicit independent lanes：autonomous-work、
+  dispatching-parallel-agents
 
-## 規則
+## Three.js
 
-1. 正常任務先讀一個主要 domain skill，唔好全載入。
-2. 多代理、MCP、image generation、reel extraction 都係條件式能力。
-3. Skill 不存在時，核心 workflow 仍然可獨立使用。
-4. 不要從舊 package 盲目覆蓋當前 active skills。
-5. CloudAI-X 技術 pack 只供私人本機參考；官方 Three.js r185 文件與實際 browser evidence 優先。
+官方 authority係 host project exact version對應嘅
+[mrdoob/three.js](https://github.com/mrdoob/three.js) source、manual、API docs
+同 examples。官方 repo冇發行 Agent Skills。
 
-完整 v1.2.6 bundled sources 已保留於舊版及備份，只供 archaeology／rollback，不再作 v1.3 日常內容。
+本機如已安裝，可以用 threejs-cinematic-motion 做 director，再揀最多
+1–3 個 threejs topic skills。呢啲係我哋根據官方 source寫嘅 local
+guidance，唔係 official Three.js product；詳細 source lock見
+[THREEJS_SOURCE_LOCK.json](THREEJS_SOURCE_LOCK.json)。
+
+## Rules
+
+1. 正常任務只讀一個主要 domain skill。
+2. Skill唔存在時，core workflow照樣執行。
+3. External install先核 repository/path、commit/version、license、
+   scripts/hooks、permissions同rollback。
+4. 唔用mutable branch、popularity或README license claim做authority。
+5. 唔從舊 package覆蓋 active skills。

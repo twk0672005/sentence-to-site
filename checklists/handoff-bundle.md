@@ -8,18 +8,16 @@
 - [ ] changed files summary
 - [ ] how to run locally
 - [ ] how to verify
-- [ ] desktop screenshot
-- [ ] mobile screenshot
+- [ ] viewport evidence按profile齊全（Tiny可只交changed state；Normal以上desktop/mobile）
 - [ ] readback JSON / verification output
 - [ ] known issues
 - [ ] next recommended patch
 
 ## 動畫 / WebGL 額外必備
 
-- [ ] top / mid / final screenshots
-- [ ] 6-12 秒 MP4 / GIF
-- [ ] contact sheet
-- [ ] WebGL status readback
+- [ ] Micro：before / active / after；或 complex：start / mid / settled
+- [ ] Choreographed/Cinematic：6-12秒WebM/MP4 + contact sheet
+- [ ] WebGL scope先需要viewpoint／resource／lifecycle readback
 - [ ] reduced-motion / fallback 說明
 
 ## 交給 agent 的 context block
@@ -45,3 +43,4 @@ Expected output:
 - [ ] huge raw generated cache
 - [ ] personal screenshots unrelated to project
 - [ ] pycache / build temp unless specifically needed
+- [ ] base64/data URLs、完整tool transcript或無界raw logs

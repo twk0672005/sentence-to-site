@@ -6,11 +6,13 @@
 
 - [ ] repo root 已確認
 - [ ] 是否 git repo 已確認
+- [ ] branch／HEAD／dirty worktree／uncommitted user work 已確認
 - [ ] package manager 已確認：npm / pnpm / yarn / none
 - [ ] framework 已確認：Static / React / Vite / Next / Astro / other
 - [ ] dev command 已找到
 - [ ] build command 已找到
 - [ ] preview command 已找到
+- [ ] commands 來自 package/config/README/CI，而唔係agent估出嚟
 
 ## 入口與架構
 
@@ -28,6 +30,7 @@
 - [ ] reports / screenshots / generated outputs 位置已找到
 - [ ] current accepted screenshot / video 已保存或重新產生
 - [ ] browser verification 方法已確認
+- [ ] exact route identity marker 同 evidence output path 已鎖
 
 ## 安全與邊界
 
